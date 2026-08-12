@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "description": "Layer 2 Flash 感知提示词头部注入模板。每次 view_file 观看视频前，Agent 从 _grounding_payload.json 读取以下字段并拼接到 prompts.json 各板块 prompt 之前。",
+    "usage": "在调用 Flash view_file 前，Agent 读取 _grounding_payload.json，将以下模板填充后注入到每个板块 prompt 的开头",
+    "schema_note": "honesty_report 采用嵌套 schema（sections.<板块>.evidence），与 SKILL.md 示例及 pro_qa_inspector.py / unified_gate.py 的读取逻辑一致。2026-07-25 从扁平 schema 统一为嵌套版，勿再改回。"
+  },
+  "header_template": "【物理边界声明 · 绝对铁律】\n- 本视频真实物理总时长：{{strict_duration_sec}} 秒（{{strict_fps}} fps，共 {{total_frames}} 帧）。\n- 所有时间戳（镜头/VO/SFX/BGM/情绪段/节拍）必须严格落在 [0.00, {{strict_duration_sec}}] 区间内；最后一个镜头与最后一句 VO 的 end_sec 绝不能超过 {{strict_duration_sec}} 秒。\n- 禁止外推或想象片尾不存在的内容——越界时间戳将被门禁层直接硬拒（HARD REJECT），整条记录作废。\n- 算法切点锚点：ffmpeg 预检出约 {{scene_cut_hint}} 个硬切点。你的 shot_timeline 总数应与该量级一致——少于其一半即涉嫌漏切/合并，快切视频禁止因中长视频档位而合并镜头（门禁层会校验并告警）。\n\n【观看前必读 · Grounding 信号】\n\n1. 台词 Ground Truth (Whisper STT，请以此为准校验你的 VO 转录)：\n{{whisper_stt}}\n\n2. 视频硬指标元数据：\n{{ffprobe_meta}}\n\n3. 账号 Baseline（历史统计）：\n{{account_baseline}}\n\n【诚实度报告 · 强制要求】\n\n5 个板块全部输出完成后，必须在 _meta.honesty_report 中提供嵌套结构（与 SKILL.md 示例完全一致）：\n- view_file_called: true（必须真实调用 view_file；为 false 整条 JSON 作废）\n- watched_full_video: true（必须观看完整视频，非只看前几秒）\n- script_generated: false（必须为 false，禁止使用脚本批量生成）\n- sections: 每个板块一个对象，含 3 个字段：\n  - view_file_watched: true（该板块基于真实观看）\n  - evidence: \"精确时间点 + 具体画面/声音描述\"（只有看过视频才能写出的细节，泛化描述如'有一只狗在动'将判为未真实观看）\n  - specific_details_only_from_watching: [\"3-5个只有看过视频才知道的细节\"]\n- fields_not_from_viewing: [\"无法提取的字段，诚实标注原因\"]\n\n如果某个字段你无法从视频中提取到数据，请标注 'Gemini 未提取到'，不要编造。\n\n\n\n【VO 边界与空块铁律 · 2026-08-04 监督审计新增】\n- VO 逐句转录必须保留句间静默间隙：end_sec 不得默认等于下一句 start_sec；whisper Ground Truth 存在句间静默时，时间轴必须体现间隙（门禁将交叉核验：合并覆盖≈100% 且 whisper 静默≥5s = 边界链接，硬拒）。\n- 空块禁填：契约字段确无内容时必须填显式否定值（如 '无'），空 dict/空 list/空串一律门禁拒收。\n- 镜数粒度依据：honesty_report 须注明拍摄/剪辑风格（低切手持/POV/长镜头/快切拟人/简笔动画等）与镜数划分依据，供跨次对比解释波动。",
+  "field_mappings": {
+    "strict_duration_sec": "grounding_payload._system_boundary.strict_duration_sec",
+    "strict_fps": "grounding_payload._system_boundary.strict_fps",
+    "total_frames": "grounding_payload._system_boundary.total_frames",
+    "scene_cut_hint": "grounding_payload._scene_cut_estimate.hard_cuts_detected（缺失时填'未检测'并忽略该行约束）",
+    "whisper_stt": "grounding_payload.whisper_stt",
+    "ffprobe_meta": "grounding_payload.ffprobe_meta",
+    "account_baseline": "grounding_payload.account_baseline"
+  }
+}

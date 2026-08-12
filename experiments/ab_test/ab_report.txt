@@ -1,0 +1,283 @@
+================================================================================
+A/B 对比报告: skill流水线 (A) vs 直接对话prompt (B)
+视频时长: 117.84s
+================================================================================
+
+指标                        A (skill)            B (direct)           胜者       备注
+--------------------------------------------------------------------------------
+镜头数                       21                   41                   B        更多=更细致
+镜头密度/10s                  1.8                  3.5                  B        skill最低要求: ≥3.3/10s(短视频)
+时间轴覆盖率%                   100.0                66.8                 A        最后镜end_sec ≈ 视频时长
+覆盖偏差(s)                   0.0                  39.16                A        越小越好
+SFX数                      6                    11                   B        skill最低要求: ≥2/10s
+SFX密度/10s                 0.5                  0.9                  B        
+VO段数                      61                   35                   A        skill最低要求: ≥1/10s
+VO密度/10s                  5.2                  3.0                  A        
+BGM变化                     3                    8                    B        
+Ducking事件                 2                    123                  B        
+故事节拍                      5                    5                    B        
+情绪段数                      5                    0                    A        
+金句数                       2                    3                    B        
+微动作捕捉                     3                    5                    B        Gemini独有能力，skill强制要求
+macro.total_shots匹配       ✅                    ✅                    tie      声明总数 = 实际条数
+ASL一致性                    ✅                    ✅                    tie      声明ASL = 计算ASL(±0.5s)
+VO ratio一致性               ✅                    ❌                    A        声明ratio = 计算ratio(±15%)
+有honesty_report           ✅                    ❌                    A        skill强制要求
+honesty细节条数               21                   0                    A        
+null字段比例%                 0.0                  0.0                  B        越高=越诚实标注不确定（但太多=信息缺失）
+SFX描述重复率%                 0.0                  0.0                  B        越低越好（0%=无模板）
+镜头描述重复率%                  0.0                  0.0                  B        越低越好
+JSON体积(KB)                14.0                 14.0                 B        更大=更多字段填充
+script全文长度                500                  515                  B        
+--------------------------------------------------------------------------------
+
+胜负统计: A (skill) 胜 8 | B (direct) 胜 14 | 平局 2
+
+完整 metrics JSON:
+{
+  "metrics_a": {
+    "shots": 21,
+    "shot_density_per_10s": 1.8,
+    "coverage_gap_sec": 0.0,
+    "coverage_pct": 100.0,
+    "sfx": 6,
+    "sfx_density_per_10s": 0.5,
+    "vo_segments": 61,
+    "vo_density_per_10s": 5.2,
+    "bgm_changes": 3,
+    "ducking_events": 2,
+    "story_beats": 5,
+    "quotes": 2,
+    "emotion_segments": 5,
+    "micro_motions": 3,
+    "scene_timeline": 1,
+    "prop_inventory": 0,
+    "macro_total_shots": 21,
+    "macro_shots_match": true,
+    "asl_macro": 5.61,
+    "asl_calc": 5.61,
+    "asl_match": true,
+    "vo_ratio_macro": 82.5,
+    "vo_ratio_calc": 96.6,
+    "vo_ratio_match": true,
+    "has_honesty_report": true,
+    "honesty_details_count": 21,
+    "null_fields": 0,
+    "total_fields": 510,
+    "null_ratio_pct": 0.0,
+    "sfx_template_ratio_pct": 0.0,
+    "shot_template_ratio_pct": 0.0,
+    "script_full_text_len": 500,
+    "json_size_kb": 14.0
+  },
+  "metrics_b": {
+    "shots": 41,
+    "shot_density_per_10s": 3.5,
+    "coverage_gap_sec": 39.16,
+    "coverage_pct": 66.8,
+    "sfx": 11,
+    "sfx_density_per_10s": 0.9,
+    "vo_segments": 35,
+    "vo_density_per_10s": 3.0,
+    "bgm_changes": 8,
+    "ducking_events": 123,
+    "story_beats": 5,
+    "quotes": 3,
+    "emotion_segments": 0,
+    "micro_motions": 5,
+    "scene_timeline": 0,
+    "prop_inventory": 0,
+    "macro_total_shots": 41,
+    "macro_shots_match": true,
+    "asl_macro": 3.83,
+    "asl_calc": 3.83,
+    "asl_match": true,
+    "vo_ratio_macro": 0,
+    "vo_ratio_calc": 126.1,
+    "vo_ratio_match": null,
+    "has_honesty_report": false,
+    "honesty_details_count": 0,
+    "null_fields": 0,
+    "total_fields": 503,
+    "null_ratio_pct": 0.0,
+    "sfx_template_ratio_pct": 0.0,
+    "shot_template_ratio_pct": 0.0,
+    "script_full_text_len": 515,
+    "json_size_kb": 14.0
+  },
+  "comparison_rows": [
+    {
+      "metric": "镜头数",
+      "path_a_skill": 21,
+      "path_b_direct": 41,
+      "winner": "B",
+      "note": "更多=更细致"
+    },
+    {
+      "metric": "镜头密度/10s",
+      "path_a_skill": 1.8,
+      "path_b_direct": 3.5,
+      "winner": "B",
+      "note": "skill最低要求: ≥3.3/10s(短视频)"
+    },
+    {
+      "metric": "时间轴覆盖率%",
+      "path_a_skill": 100.0,
+      "path_b_direct": 66.8,
+      "winner": "A",
+      "note": "最后镜end_sec ≈ 视频时长"
+    },
+    {
+      "metric": "覆盖偏差(s)",
+      "path_a_skill": 0.0,
+      "path_b_direct": 39.16,
+      "winner": "A",
+      "note": "越小越好"
+    },
+    {
+      "metric": "SFX数",
+      "path_a_skill": 6,
+      "path_b_direct": 11,
+      "winner": "B",
+      "note": "skill最低要求: ≥2/10s"
+    },
+    {
+      "metric": "SFX密度/10s",
+      "path_a_skill": 0.5,
+      "path_b_direct": 0.9,
+      "winner": "B",
+      "note": ""
+    },
+    {
+      "metric": "VO段数",
+      "path_a_skill": 61,
+      "path_b_direct": 35,
+      "winner": "A",
+      "note": "skill最低要求: ≥1/10s"
+    },
+    {
+      "metric": "VO密度/10s",
+      "path_a_skill": 5.2,
+      "path_b_direct": 3.0,
+      "winner": "A",
+      "note": ""
+    },
+    {
+      "metric": "BGM变化",
+      "path_a_skill": 3,
+      "path_b_direct": 8,
+      "winner": "B",
+      "note": ""
+    },
+    {
+      "metric": "Ducking事件",
+      "path_a_skill": 2,
+      "path_b_direct": 123,
+      "winner": "B",
+      "note": ""
+    },
+    {
+      "metric": "故事节拍",
+      "path_a_skill": 5,
+      "path_b_direct": 5,
+      "winner": "B",
+      "note": ""
+    },
+    {
+      "metric": "情绪段数",
+      "path_a_skill": 5,
+      "path_b_direct": 0,
+      "winner": "A",
+      "note": ""
+    },
+    {
+      "metric": "金句数",
+      "path_a_skill": 2,
+      "path_b_direct": 3,
+      "winner": "B",
+      "note": ""
+    },
+    {
+      "metric": "微动作捕捉",
+      "path_a_skill": 3,
+      "path_b_direct": 5,
+      "winner": "B",
+      "note": "Gemini独有能力，skill强制要求"
+    },
+    {
+      "metric": "macro.total_shots匹配",
+      "path_a_skill": "✅",
+      "path_b_direct": "✅",
+      "winner": "tie",
+      "note": "声明总数 = 实际条数"
+    },
+    {
+      "metric": "ASL一致性",
+      "path_a_skill": "✅",
+      "path_b_direct": "✅",
+      "winner": "tie",
+      "note": "声明ASL = 计算ASL(±0.5s)"
+    },
+    {
+      "metric": "VO ratio一致性",
+      "path_a_skill": "✅",
+      "path_b_direct": "❌",
+      "winner": "A",
+      "note": "声明ratio = 计算ratio(±15%)"
+    },
+    {
+      "metric": "有honesty_report",
+      "path_a_skill": "✅",
+      "path_b_direct": "❌",
+      "winner": "A",
+      "note": "skill强制要求"
+    },
+    {
+      "metric": "honesty细节条数",
+      "path_a_skill": 21,
+      "path_b_direct": 0,
+      "winner": "A",
+      "note": ""
+    },
+    {
+      "metric": "null字段比例%",
+      "path_a_skill": 0.0,
+      "path_b_direct": 0.0,
+      "winner": "B",
+      "note": "越高=越诚实标注不确定（但太多=信息缺失）"
+    },
+    {
+      "metric": "SFX描述重复率%",
+      "path_a_skill": 0.0,
+      "path_b_direct": 0.0,
+      "winner": "B",
+      "note": "越低越好（0%=无模板）"
+    },
+    {
+      "metric": "镜头描述重复率%",
+      "path_a_skill": 0.0,
+      "path_b_direct": 0.0,
+      "winner": "B",
+      "note": "越低越好"
+    },
+    {
+      "metric": "JSON体积(KB)",
+      "path_a_skill": 14.0,
+      "path_b_direct": 14.0,
+      "winner": "B",
+      "note": "更大=更多字段填充"
+    },
+    {
+      "metric": "script全文长度",
+      "path_a_skill": 500,
+      "path_b_direct": 515,
+      "winner": "B",
+      "note": ""
+    }
+  ],
+  "summary": {
+    "a_wins": 8,
+    "b_wins": 14,
+    "ties": 2
+  }
+}

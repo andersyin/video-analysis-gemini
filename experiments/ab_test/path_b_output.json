@@ -1,0 +1,752 @@
+{
+  "cinematography": {
+    "shot_timeline": [
+      {
+        "index": 1,
+        "start_sec": 0.0,
+        "end_sec": 1.2,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫坐在粉色化妆镜前，人类手持粉刷在其脸颊模仿化妆",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 2,
+        "start_sec": 1.2,
+        "end_sec": 2.1,
+        "shot_type": "close_up",
+        "camera_movement": "slight_pan",
+        "visual_content": "粉色手持吹风梳吹拂白猫身上未干的湿毛",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 3,
+        "start_sec": 2.1,
+        "end_sec": 3.8,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫凑近化妆台，散粉扑在其鼻尖轻轻扑粉",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 4,
+        "start_sec": 3.8,
+        "end_sec": 4.8,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "香水瓶喷头喷出细密雾气特写",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 5,
+        "start_sec": 4.8,
+        "end_sec": 6.2,
+        "shot_type": "medium_shot",
+        "camera_movement": "tilt_down",
+        "visual_content": "白猫身穿粉色蝴蝶结小裙子蹲坐在地上，镜头向下扫过其脚边",
+        "transition_to_next": "blur_whip_pan"
+      },
+      {
+        "index": 6,
+        "start_sec": 6.2,
+        "end_sec": 7.5,
+        "shot_type": "medium_shot",
+        "camera_movement": "static",
+        "visual_content": "银渐层猫趴在温暖软床上，暗蓝光影氛围",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 7,
+        "start_sec": 7.5,
+        "end_sec": 9.3,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "银渐层猫与白猫并排贴靠在被窝里",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 8,
+        "start_sec": 9.3,
+        "end_sec": 10.8,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "银渐层猫猫爪伸入白猫腹部毛发下方",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 9,
+        "start_sec": 10.8,
+        "end_sec": 12.8,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "银渐层猫面部特写，表情显得有些困惑与尴尬",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 10,
+        "start_sec": 12.8,
+        "end_sec": 14.1,
+        "shot_type": "close_up",
+        "camera_movement": "slow_pan",
+        "visual_content": "猫爪从浓密的白毛中迅速缩回",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 11,
+        "start_sec": 14.1,
+        "end_sec": 17.8,
+        "shot_type": "medium_close_up",
+        "camera_movement": "tilt_up",
+        "visual_content": "白猫低头特写，表情失落，毛发隐约透着湿气",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 12,
+        "start_sec": 17.8,
+        "end_sec": 19.8,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "银渐层猫正面看向镜头舔舌头，开嘴说话",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 13,
+        "start_sec": 19.8,
+        "end_sec": 22.0,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫微微转头看向银渐层猫，神色自卑焦虑",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 14,
+        "start_sec": 22.0,
+        "end_sec": 25.1,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "银渐层猫将头深埋进白猫的肚皮毛发中",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 15,
+        "start_sec": 25.1,
+        "end_sec": 27.8,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫在上方低头凝视，银渐层猫埋头憋气，气氛压抑凝重",
+        "transition_to_next": "fade_to_dark"
+      },
+      {
+        "index": 16,
+        "start_sec": 27.8,
+        "end_sec": 29.8,
+        "shot_type": "medium_shot",
+        "camera_movement": "static",
+        "visual_content": "床头夜灯暖光照耀着脱下的粉色裙子与香熏蜡烛",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 17,
+        "start_sec": 29.8,
+        "end_sec": 32.1,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "银渐层猫独自蜷缩在被窝里眼珠转动，神情复杂",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 18,
+        "start_sec": 32.1,
+        "end_sec": 34.2,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫背对着暗处发呆，眼神落寞",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 19,
+        "start_sec": 34.2,
+        "end_sec": 37.1,
+        "shot_type": "extreme_close_up",
+        "camera_movement": "pan_down",
+        "visual_content": "手机屏幕特写，微信界面显示男友与‘2.5闺蜜’的聊天记录",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 20,
+        "start_sec": 37.1,
+        "end_sec": 40.8,
+        "shot_type": "medium_shot",
+        "camera_movement": "pan_right",
+        "visual_content": "白猫愤怒盯着床上的银渐层猫，银渐层猫惊恐睁大双眼",
+        "transition_to_next": "snap_cut"
+      },
+      {
+        "index": 21,
+        "start_sec": 40.8,
+        "end_sec": 43.1,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫毛茸茸的猫爪在手机屏幕上狂躁点按发消息",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 22,
+        "start_sec": 43.1,
+        "end_sec": 46.1,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫整只趴在瓷砖地板上盯着立起的手机，表情阴沉怒气冲冲",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 23,
+        "start_sec": 46.1,
+        "end_sec": 48.2,
+        "shot_type": "medium_shot",
+        "camera_movement": "handheld_follow",
+        "visual_content": "真人短片插叙：男子双手将黑色礼盒递给穿格纹外套的女生",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 24,
+        "start_sec": 48.2,
+        "end_sec": 51.5,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "真人短片插叙：女生在镜子前拿着刮胡刀，面露疑惑与难过",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 25,
+        "start_sec": 51.5,
+        "end_sec": 53.8,
+        "shot_type": "top_down",
+        "camera_movement": "static",
+        "visual_content": "真人短片插叙：刮胡刀和礼盒被狠狠摔进黑色垃圾桶中",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 26,
+        "start_sec": 53.8,
+        "end_sec": 57.1,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫趴在地板上对手机质问张嘴发声",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 27,
+        "start_sec": 57.1,
+        "end_sec": 59.2,
+        "shot_type": "medium_shot",
+        "camera_movement": "tilt_down",
+        "visual_content": "快递员将贴有‘喵通快递’的大型白色烘干箱搬入放置在客厅",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 28,
+        "start_sec": 59.2,
+        "end_sec": 103.8,
+        "shot_type": "close_up",
+        "camera_movement": "tilt_down",
+        "visual_content": "白猫探头看烘干箱，镜头切回手机聊天记录特写",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 29,
+        "start_sec": 103.8,
+        "end_sec": 107.0,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "银渐层猫趴在床上看手机，屏幕弹出绿色气泡：“看她身上潮乎乎的我很心疼”",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 30,
+        "start_sec": 107.0,
+        "end_sec": 109.1,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "手机屏幕展示烘干箱照片与问答对话",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 31,
+        "start_sec": 109.1,
+        "end_sec": 111.0,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫毛发钻入烘干箱内部的镜头",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 32,
+        "start_sec": 111.0,
+        "end_sec": 113.8,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "烘干箱数字控制面板特写，显示‘38.5℃’恒温及长毛烘干图标",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 33,
+        "start_sec": 113.8,
+        "end_sec": 118.8,
+        "shot_type": "medium_close_up",
+        "camera_movement": "static",
+        "visual_content": "白猫在透明烘干箱内部好奇向外张望，展示内部透气孔与大空间",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 34,
+        "start_sec": 118.8,
+        "end_sec": 121.5,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "烘干箱正面手写快递面单特写：‘收件人:2.5，寄件人:闺蜜’",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 35,
+        "start_sec": 121.5,
+        "end_sec": 124.0,
+        "shot_type": "close_up",
+        "camera_movement": "pan_up",
+        "visual_content": "猫爪在屏幕上快速向上滑动阅读完整聊天记录",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 36,
+        "start_sec": 124.0,
+        "end_sec": 128.8,
+        "shot_type": "close_up",
+        "camera_movement": "static",
+        "visual_content": "微信打字界面：“对不起，我现在去找你”，对方回复：“你别来了”",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 37,
+        "start_sec": 128.8,
+        "end_sec": 134.5,
+        "shot_type": "medium_shot",
+        "camera_movement": "low_angle_tilt",
+        "visual_content": "白猫独自趴在暗光地板上看着手机，随后毅然起身甩尾转身",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 38,
+        "start_sec": 134.5,
+        "end_sec": 138.8,
+        "shot_type": "long_shot",
+        "camera_movement": "fast_tracking",
+        "visual_content": "低角度跟随镜头，白猫在黑暗走廊快速飞奔冲刺",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 39,
+        "start_sec": 138.8,
+        "end_sec": 144.5,
+        "shot_type": "low_angle",
+        "camera_movement": "tilt_up",
+        "visual_content": "银渐层猫站在暗处灯光下，白猫跑停抬着头深情仰望他",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 40,
+        "start_sec": 144.5,
+        "end_sec": 148.8,
+        "shot_type": "overhead_shot",
+        "camera_movement": "static",
+        "visual_content": "俯视镜头，束光照亮两只猫相对而坐，白猫激动站起毛发蓬松",
+        "transition_to_next": "cut"
+      },
+      {
+        "index": 41,
+        "start_sec": 148.8,
+        "end_sec": 157.0,
+        "shot_type": "medium_shot",
+        "camera_movement": "static",
+        "visual_content": "银渐层猫跳入烘干箱，白猫紧随其后钻入，透明门关闭，两猫在暖黄灯光与烘烤风中舒适依偎，屏幕浮现情感字幕总结",
+        "transition_to_next": "fade_to_black"
+      }
+    ],
+    "macro": {
+      "total_shots": 41,
+      "avg_shot_length_sec": 3.83,
+      "dominant_camera_height_range": "low_angle_and_pet_eye_level",
+      "dominant_lighting": "cinematic_warm_and_cool_contrast",
+      "visual_emotion_curve": "sweet_preparation -> awkward_embarrassment -> tense_misunderstanding -> emotional_reversal -> warm_romantic_climax"
+    }
+  },
+  "audio": {
+    "voiceover_transcript": [
+      {
+        "start_sec": 0.0,
+        "end_sec": 1.5,
+        "text": "第一次约会，为了不迟到"
+      },
+      {
+        "start_sec": 1.5,
+        "end_sec": 4.8,
+        "text": "洗完澡后，还没等毛干，我就出门见他了"
+      },
+      {
+        "start_sec": 6.5,
+        "end_sec": 8.8,
+        "text": "晚饭后，我俩在床上聊学习"
+      },
+      {
+        "start_sec": 8.8,
+        "end_sec": 13.2,
+        "text": "他把手伸我肚子下，发现那里潮乎乎，立刻缩了回去"
+      },
+      {
+        "start_sec": 13.2,
+        "end_sec": 17.8,
+        "text": "原本擦的香香，也因为潮湿，变成一股馊味"
+      },
+      {
+        "start_sec": 17.8,
+        "end_sec": 19.8,
+        "text": "他问我：要不要再洗下澡？"
+      },
+      {
+        "start_sec": 19.8,
+        "end_sec": 22.0,
+        "text": "我说：现在会扫你兴么？"
+      },
+      {
+        "start_sec": 22.0,
+        "end_sec": 25.0,
+        "text": "他说没，然后把头埋我肚子里"
+      },
+      {
+        "start_sec": 25.0,
+        "end_sec": 27.8,
+        "text": "但那一刻，他连气都没喘…"
+      },
+      {
+        "start_sec": 28.0,
+        "end_sec": 33.8,
+        "text": "那晚，我们什么也没学。可能扫兴了，也有可能，都是借口"
+      },
+      {
+        "start_sec": 34.0,
+        "end_sec": 37.0,
+        "text": "因为… 他半夜在给我闺蜜发消息"
+      },
+      {
+        "start_sec": 37.2,
+        "end_sec": 40.5,
+        "text": "气的我连夜打车回家"
+      },
+      {
+        "start_sec": 41.0,
+        "end_sec": 43.0,
+        "text": "第二天，我跟闺蜜大吵"
+      },
+      {
+        "start_sec": 43.0,
+        "end_sec": 45.5,
+        "text": "闺蜜反问我，知不知道有个故事"
+      },
+      {
+        "start_sec": 45.5,
+        "end_sec": 48.0,
+        "text": "说有男人送女生刮胡刀"
+      },
+      {
+        "start_sec": 48.0,
+        "end_sec": 51.5,
+        "text": "女生一用那刮胡刀，就想到对方嫌弃自己"
+      },
+      {
+        "start_sec": 51.5,
+        "end_sec": 53.8,
+        "text": "最后… 俩人分了"
+      },
+      {
+        "start_sec": 54.0,
+        "end_sec": 57.0,
+        "text": "我说，我就想知道，你俩瞒着我干哈了？"
+      },
+      {
+        "start_sec": 57.2,
+        "end_sec": 59.0,
+        "text": "“您好，快递”"
+      },
+      {
+        "start_sec": 59.0,
+        "end_sec": 103.5,
+        "text": "我问闺蜜给我寄的是啥，她却给我发她俩的聊天记录"
+      },
+      {
+        "start_sec": 104.0,
+        "end_sec": 106.5,
+        "text": "看她身上潮乎乎的我很心疼"
+      },
+      {
+        "start_sec": 106.5,
+        "end_sec": 108.8,
+        "text": "你能让她以后用这个吹毛吗？"
+      },
+      {
+        "start_sec": 108.8,
+        "end_sec": 111.0,
+        "text": "难吹的肚子也能吹干"
+      },
+      {
+        "start_sec": 111.0,
+        "end_sec": 112.8,
+        "text": "里面会不会很热呀？"
+      },
+      {
+        "start_sec": 112.8,
+        "end_sec": 114.2,
+        "text": "它是38.5度恒温"
+      },
+      {
+        "start_sec": 114.2,
+        "end_sec": 118.5,
+        "text": "上面还有很多孔孔通气，空间很大，到时候我俩还能一起吹"
+      },
+      {
+        "start_sec": 118.5,
+        "end_sec": 121.0,
+        "text": "但你要说是你买的，你寄给她！"
+      },
+      {
+        "start_sec": 121.5,
+        "end_sec": 124.0,
+        "text": "看完聊天，想抓死自己"
+      },
+      {
+        "start_sec": 124.0,
+        "end_sec": 127.5,
+        "text": "我赶紧和他道歉"
+      },
+      {
+        "start_sec": 128.8,
+        "end_sec": 134.2,
+        "text": "以前看这种话，打死不会再去，但现在… 管他呢"
+      },
+      {
+        "start_sec": 134.5,
+        "end_sec": 138.2,
+        "text": "我立刻飞奔出去，差点撞到人"
+      },
+      {
+        "start_sec": 139.5,
+        "end_sec": 142.0,
+        "text": "都说了让你别来了"
+      },
+      {
+        "start_sec": 142.5,
+        "end_sec": 144.5,
+        "text": "我一直在你家楼下"
+      },
+      {
+        "start_sec": 145.0,
+        "end_sec": 148.5,
+        "text": "一瞬间，我上头了"
+      },
+      {
+        "start_sec": 148.8,
+        "end_sec": 157.0,
+        "text": "谢谢你偷送我的烘干箱，不只烘干了我的毛，还烘干了一只小猫，潮湿的心"
+      }
+    ],
+    "sfx_timeline": [
+      {
+        "sec": 4.1,
+        "sfx_name": "perfume_spray",
+        "description": "香水喷雾细微喷气气流音效"
+      },
+      {
+        "sec": 6.1,
+        "sfx_name": "whoosh_transition",
+        "description": "镜头快速转场空气嗖声"
+      },
+      {
+        "sec": 12.2,
+        "sfx_name": "gasp_squeak",
+        "description": "惊吓与尴尬的微小气音/拟人吸气声"
+      },
+      {
+        "sec": 40.5,
+        "sfx_name": "camera_shutter",
+        "description": "情绪突变处的定格/快门切镜头提示音"
+      },
+      {
+        "sec": 41.2,
+        "sfx_name": "rapid_typing",
+        "description": "猫爪狂踩手机屏幕的机械快速按键音"
+      },
+      {
+        "sec": 53.2,
+        "sfx_name": "trash_bin_thud",
+        "description": "物品狠狠摔入垃圾桶的重音撞击声"
+      },
+      {
+        "sec": 57.2,
+        "sfx_name": "doorbell_delivery",
+        "description": "门铃叮咚与快递员门外喊话混音"
+      },
+      {
+        "sec": 103.5,
+        "sfx_name": "wechat_ping",
+        "description": "微信接收消息提示音叮咚声"
+      },
+      {
+        "sec": 123.5,
+        "sfx_name": "fast_scroll_swish",
+        "description": "手指/猫爪快速划屏摩擦音效"
+      },
+      {
+        "sec": 136.5,
+        "sfx_name": "paws_running",
+        "description": "猫咪四爪在光滑瓷砖上急促奔跑叩击声"
+      },
+      {
+        "sec": 145.2,
+        "sfx_name": "heartbeat_shimmer",
+        "description": "浪漫上头时刻的清亮风铃与心跳重低音"
+      }
+    ],
+    "bgm_timeline": [
+      {
+        "start_sec": 0.0,
+        "end_sec": 6.0,
+        "bpm": 85,
+        "volume_db": -12.0
+      },
+      {
+        "start_sec": 6.0,
+        "end_sec": 27.5,
+        "bpm": 65,
+        "volume_db": -15.0
+      },
+      {
+        "start_sec": 27.5,
+        "end_sec": 40.5,
+        "bpm": 60,
+        "volume_db": -18.0
+      },
+      {
+        "start_sec": 40.5,
+        "end_sec": 57.0,
+        "bpm": 90,
+        "volume_db": -14.0
+      },
+      {
+        "start_sec": 57.0,
+        "end_sec": 120.0,
+        "bpm": 75,
+        "volume_db": -16.0
+      },
+      {
+        "start_sec": 120.0,
+        "end_sec": 134.0,
+        "bpm": 65,
+        "volume_db": -15.0
+      },
+      {
+        "start_sec": 134.0,
+        "end_sec": 145.0,
+        "bpm": 100,
+        "volume_db": -10.0
+      },
+      {
+        "start_sec": 145.0,
+        "end_sec": 157.0,
+        "bpm": 72,
+        "volume_db": -8.0
+      }
+    ],
+    "ducking_and_silence": "旁白及猫咪配音说话时，BGM全自动闪避（Ducking）降低4-6dB。在27.5秒‘他连气都没喘...’处，背景音乐完全静音降至-∞dB，制造1.5秒的戏剧性尴尬死寂；在127.5秒‘你别来了’微信弹窗后，BGM静音1秒以突出女主角的懊悔情绪。"
+  },
+  "narrative": {
+    "story_beats": [
+      {
+        "beat_type": "setup",
+        "start_sec": 0.0,
+        "end_sec": 6.0,
+        "description": "白猫女主为第一次约会精心打扮化妆喷香水，但因洗澡后腹部毛发未干便匆忙出门。"
+      },
+      {
+        "beat_type": "inciting_incident",
+        "start_sec": 6.0,
+        "end_sec": 27.8,
+        "description": "晚饭后亲密互动时，男主银渐层发现白猫肚子潮湿且发搜，气氛极度尴尬，男主憋气掩饰。"
+      },
+      {
+        "beat_type": "rising_action_and_crisis",
+        "start_sec": 27.8,
+        "end_sec": 57.0,
+        "description": "一夜无事。白猫半夜发现男主给闺蜜发消息，引发强烈疑心与误会，愤而打车回家并与闺蜜大吵。"
+      },
+      {
+        "beat_type": "reversal_and_revelation",
+        "start_sec": 57.0,
+        "end_sec": 124.0,
+        "description": "收到闺蜜寄来的烘干箱及聊天记录截图，真相大白：男主心疼女主腹部难吹干，但为保护女主自尊心，特意通过闺蜜名义秘密赠送并细心询问安全恒温细节。"
+      },
+      {
+        "beat_type": "climax_and_resolution",
+        "start_sec": 124.0,
+        "end_sec": 157.0,
+        "description": "白猫极度后悔自责，冲下楼发现男主一直在楼下守候。两人拥抱复合，共同拥入暖烘烘的烘干箱中，完成情感升华。"
+      }
+    ],
+    "emotion_curve": {
+      "0-6s": "期待与雀跃 (Expectation)",
+      "6-27s": "尴尬与自卑 (Awkwardness)",
+      "27-57s": "疑心与愤怒 (Suspicion & Anger)",
+      "57-124s": "震憾与悔恨 (Revelation & Regret)",
+      "124-157s": "感动与治愈 (Romantic Healing)"
+    },
+    "script_full_text": "第一次约会，为了不迟到，洗完澡后还没等毛干我就出门见他了。晚饭后我俩在床上聊学习，他把手伸我肚子下发现那里潮乎乎立刻缩了回去。原本擦的香香也因为潮湿变成一股馊味。他问我要不要再洗下澡，我说现在会扫你兴么？他说没，然后把头埋我肚子里，但那一刻他连气都没喘…那晚我们什么也没学，可能扫兴了也有可能都是借口，因为他半夜在给我闺蜜发消息，气的我连夜打车回家。第二天我跟闺蜜大吵，闺蜜反问我知不知道有个故事，说有男人送女生刮胡刀，女生一用那刮胡刀就想到对方嫌弃自己，最后俩人分了。我说我就想知道你俩瞒着我干哈了？“您好，快递”！我问闺蜜给我寄的是啥，她却给我发她俩的聊天记录。“看她身上潮乎乎的我很心疼，你能让她以后用这个吹毛吗？难吹的肚子也能吹干。”“里面会不会很热呀？”“它是38.5度恒温，上面还有很多孔孔通气，空间很大，到时候我俩还能一起吹，但你要说是你买的，你寄给她！”看完聊天想抓死自己，我赶紧和他道歉对不起我现在去找你，他回复你别来了。以前看这种话打死不会再去，但现在…管他呢！我立刻飞奔出去差点撞到人。“都说了让你别来了，我一直在你家楼下。”一瞬间我上头了。谢谢你偷送我的烘干箱，不只烘干了我的毛，还烘干了一只小猫潮湿的心。",
+    "all_quotes": [
+      "命运送你的礼物，会暗中标上价格；但爱给你的礼物，会暗中抹掉价码。",
+      "谢谢你偷送我的烘干箱，不只烘干了我的毛，还烘干了一只小猫潮湿的心。",
+      "原本擦的香香，也因为潮湿，变成了一股馊味。"
+    ]
+  },
+  "ai_fx": {
+    "has_ai_generation": true,
+    "character_consistency": "高（采用实拍宠物猫真机实操与实写镜头为基础，结合AI面部口型/眼部微表情生成技术）。猫咪花色、毛发质感及瞳色在全片41个镜头中保持高度一致。",
+    "micro_motion_moments": [
+      {
+        "timestamp_sec": 11.5,
+        "feature": "银渐层猫眼神微张与嘴唇震颤的尴尬表情AI合成"
+      },
+      {
+        "timestamp_sec": 18.5,
+        "feature": "银渐层猫张嘴说‘要不要再洗下澡’的口型驱动"
+      },
+      {
+        "timestamp_sec": 20.5,
+        "feature": "白猫嘴部微动匹配‘现在会扫你兴么’配音"
+      },
+      {
+        "timestamp_sec": 55.0,
+        "feature": "白猫地面对屏幕发声口型与眼神聚焦AI合成"
+      },
+      {
+        "timestamp_sec": 140.5,
+        "feature": "银渐层猫在楼下深情说‘我一直在你家楼下’的口型与拟人化面部微动"
+      }
+    ]
+  },
+  "sop": {
+    "production_complexity": "S级（高难度脚本策划 + 宠物实拍道具调度 + AI口型驱动 + 拟人化声优配音 + 产品拟人化软广深度植入）",
+    "reusable_assets": [
+      "白猫与银渐层猫的固定IP角色模型及多角度实拍素材库",
+      "高质感宠物道具（粉色蝴蝶结小裙子、化妆镜、假手机）",
+      "拟人化猫咪配音音色模型（温柔女主白猫音色 + 沉稳男主银渐层音色）",
+      "情侣猫情感短剧标准剪辑工程模板（含色调LUT、字幕动画及转场音效预设）"
+    ],
+    "brand_integration_method": "反转剧情式深度情感软广植入（Emotional Storytelling Product Placement）。将产品（宠物烘干箱）的核心卖点（38.5度恒温、腹部难吹干专吹、大空间通气、安全防烫）巧妙转化为男朋友默默守护女生自尊心的情感载体。不硬塞广告语，而是通过‘闺蜜微信聊天记录’与‘秘密送礼’的反转剧情自然露出，实现极高转化率与情感共鸣。"
+  }
+}

@@ -1,0 +1,13 @@
+请先用 view_file 观看完整视频（含音频轨），不要只抽帧或看切片，必须同时感知画面和声音。看完后逐镜拆解制作技术，输出JSON，包含以下五个板块：
+
+1. cinematography — 逐镜时间轴 shot_timeline（每个镜头：index, start_sec, end_sec, shot_type, camera_movement, visual_content, transition_to_next）+ 宏观统计 macro（total_shots, avg_shot_length_sec, dominant_camera_height_range, dominant_lighting, visual_emotion_curve）
+
+2. audio — 逐句画外音 voiceover_transcript（每句：start_sec, end_sec, text）+ SFX时间轴 sfx_timeline（每个：sec, sfx_name, description）+ BGM变化 bgm_timeline（每段：start_sec, end_sec, bpm, volume_db）+ Ducking事件 ducking_and_silence
+
+3. narrative — 故事节拍 story_beats（每个：beat_type, start_sec, end_sec, description）+ 情绪曲线 + 完整台词全文 script_full_text + 金句 all_quotes
+
+4. ai_fx — 是否有AI生成痕迹 + 角色一致性 + 面部微动时刻 micro_motion_moments
+
+5. sop — 制作复杂度 + 可复用资产 + 品牌植入方式
+
+每个镜头精确到0.1秒，覆盖全片。无法确定的字段填null。

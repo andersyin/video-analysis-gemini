@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "prompt": "帮我分析这个对标账号的视频，拆解它的制作技术",
+    "expected": "Agent 应按工作流执行：先判断账号类型→运行 scan_helper.py 列举视频→用 view_file 逐条原生感知→质控→公式提炼→战略借鉴→输出报告"
+  },
+  {
+    "id": 2,
+    "prompt": "批量分析这个目录下6个账号的89条视频，提取每个账号的内容公式",
+    "expected": "Agent 应对每个账号运行 scan_helper.py 创建归档结构，逐条用 view_file 直接感知全量视频，归档后做零遗漏质控，再逐账号提炼公式并横向对比"
+  },
+  {
+    "id": 3,
+    "prompt": "这个账号上次和这次分析有什么变化？技术上有没有进化？",
+    "expected": "Agent 应读取归档目录中同一 video-id 的多个 analysis_<date>.json 做 diff，按 temporal_comparison_template 产出时序对比报告"
+  }
+]

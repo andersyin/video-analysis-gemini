@@ -1,0 +1,83 @@
+{
+  "version": "1.1.0",
+  "description": "video-analysis-gemini 分析 JSON 的字段级唯一事实源（Single Source of Truth）。validate_schema.py / unified_gate.py / pro_qa_inspector.py / session_guard.py 的必填与密度校验均从本文件读取；synthesis_engine.py / ip_sop_compiler.py 的字段消费以此为准。修改 prompts.json 的字段后必须同步本文件，并运行 `python3 validate_schema.py --check-contract-sync` 校验对齐。",
+  "updated": "2026-07-26",
+  "density_gates": {
+    "note": "密度门禁分段口径（2026-07-26 统一，替代 SKILL.md「感知密度表」与「自适应粒度适配器」的冲突表述）。按 _video_meta.json 的 duration_sec 选档：短视频走微观镜头级高密度；中长视频走分镜/场景级，ASL 3-8s 为合理区间，密度下限相应降低。门禁执行点：session_guard.py mark-flash-extracted（L2→L3 原子绑定点，不达标拒绝标记）。",
+    "tiers": [
+      {
+        "name": "short",
+        "max_duration_sec": 60,
+        "shot_density_per_10s_min": 3.3,
+        "asl_range_sec": [0.5, 4.0],
+        "sfx_density_per_10s_min": 2.0,
+        "vo_density_per_10s_min": 1.0,
+        "pov_longtake_shot_density_per_10s_min": 2.0
+      },
+      {
+        "name": "mid",
+        "max_duration_sec": 300,
+        "shot_density_per_10s_min": 1.5,
+        "asl_range_sec": [3.0, 8.0],
+        "sfx_density_per_10s_min": 1.0,
+        "vo_density_per_10s_min": 1.0,
+        "pov_longtake_shot_density_per_10s_min": 1.0
+      },
+      {
+        "name": "long",
+        "max_duration_sec": null,
+        "shot_density_per_10s_min": null,
+        "asl_range_sec": null,
+        "sfx_density_per_10s_min": 0.5,
+        "vo_density_per_10s_min": 0.5,
+        "pov_longtake_shot_density_per_10s_min": null,
+        "comment": "超长视频走 Chapter→Scene→Key Shot 三层树状，shot 密度不做平铺门禁，由 chapter_timeline 覆盖完整性校验代替"
+      }
+    ],
+    "sfx_triad_coupling_min_pct": 50,
+    "honesty_view_duration_tolerance_sec": 1.0,
+    "pov_exception": "POV/手持长镜头风格可用 pov_longtake 下限，但 honesty_report 必须声明拍摄风格原因（检测关键词：POV/长镜头/手持/一镜到底）"
+  },
+  "sections": {
+    "cinematography": {
+      "top": ["shot_timeline", "macro"],
+      "top_soft": [],
+      "macro": ["total_shots", "avg_shot_length_sec", "dominant_camera_height_range", "dominant_composition", "dominant_lighting", "dominant_color_temp", "visual_emotion_curve"],
+      "macro_soft": ["asl_rhythm_spectrum", "kinetic_continuity_rating", "eye_line_match"],
+      "timeline_item_min_fields": ["index", "start_sec", "end_sec", "shot_type"],
+      "prompt_must_mention": ["shot_timeline", "kinetic_momentum", "visual_content", "asl_rhythm_spectrum", "transition_to_next"]
+    },
+    "ai_fx": {
+      "top": ["scene_timeline", "character_consistency", "generation_pipeline", "facial_animation"],
+      "top_soft": ["micro_motion_moments", "prop_inventory", "asset_shadow", "generation_evidence"],
+      "macro": [],
+      "macro_soft": [],
+      "timeline_item_min_fields": ["start_sec", "end_sec", "technique"],
+      "prompt_must_mention": ["scene_timeline", "micro_motion_ratio_pct", "tool_guess", "blend_method", "drift_observed", "generation_evidence"]
+    },
+    "audio": {
+      "top": ["voiceover_transcript", "sfx_timeline", "bgm_timeline", "macro"],
+      "top_soft": ["ducking_and_silence"],
+      "macro": ["voiceover_ratio_pct", "bgm_genre", "audio_emotion_curve"],
+      "macro_soft": ["character_lines_ratio_pct", "audio_track_structure", "spatial_reverb_type"],
+      "timeline_item_min_fields": [],
+      "prompt_must_mention": ["ducking_and_silence", "triad_coupling", "speech_rate_wpm", "ducking_attenuation_db", "acoustic_subtext"]
+    },
+    "narrative": {
+      "top": ["emotional_timeline", "story_beats", "script_full_text", "all_quotes", "macro"],
+      "top_soft": ["hook_analysis"],
+      "macro": ["attention_curve", "narrative_template", "story_structure"],
+      "macro_soft": ["information_asymmetry"],
+      "timeline_item_min_fields": [],
+      "prompt_must_mention": ["hook_analysis", "hook_type", "beat_type", "information_asymmetry", "intensity_1to10"]
+    },
+    "sop": {
+      "top": ["complexity_breakdown", "fixed_elements", "brand_elements", "production_complexity"],
+      "top_soft": ["asset_reusability", "monetization"],
+      "macro": [],
+      "macro_soft": [],
+      "timeline_item_min_fields": [],
+      "prompt_must_mention": ["reusable_modules", "prompt_card", "template_assets", "software_chain", "complexity_rating"]
+    }
+  }
+}
