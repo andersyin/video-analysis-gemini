@@ -6,9 +6,9 @@
 ## 安装（launchd 常驻，30 分钟一轮）
 
 ```sh
-cp "{{KB_BASE}}/raw/skills/内容平台/video-analysis-gemini/launchd/com.kb.video-analysis-watchdog.plist" ~/Library/LaunchAgents/
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.kb.video-analysis-watchdog.plist
-launchctl kickstart gui/$(id -u)/com.kb.video-analysis-watchdog   # 立即触发首轮
+cp "{{PROJECT_ROOT}}/launchd/com.video-analysis.watchdog.plist" ~/Library/LaunchAgents/
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.video-analysis.watchdog.plist
+launchctl kickstart gui/$(id -u)/com.video-analysis.watchdog   # 立即触发首轮
 ```
 
 ## 验收标准（P0-2 心跳实测协议，禁止只查文件）
@@ -20,13 +20,13 @@ launchctl kickstart gui/$(id -u)/com.kb.video-analysis-watchdog   # 立即触发
 # ① 记录当前心跳
 stat -f "%Sm" "{{KB_BASE}}/raw/系统/watchdog心跳/video-analysis-watchdog.json"
 # ② kickstart 触发一轮后，确认 mtime 前进且 last_run_at 更新
-launchctl kickstart gui/$(id -u)/com.kb.video-analysis-watchdog && sleep 30
+launchctl kickstart gui/$(id -u)/com.video-analysis.watchdog && sleep 30
 python3 -c "import json; d=json.load(open('{{KB_BASE}}/raw/系统/watchdog心跳/video-analysis-watchdog.json')); print(d['last_run_at'], d['alerts'])"
 ```
 
 故障分类（文件检查只用于分类，不用于判活）：
 - **ready**：状态文件 mtime 在 StartInterval×2 内 → 健康
-- **disabled**：mtime 停走 + plist 在 + `launchctl print gui/$(id -u)/com.kb.video-analysis-watchdog` 报 not found → 后台活动开关被关 / 被 bootout，需重新 bootstrap
+- **disabled**：mtime 停走 + plist 在 + `launchctl print gui/$(id -u)/com.video-analysis.watchdog` 报 not found → 后台活动开关被关 / 被 bootout，需重新 bootstrap
 - **notSetUp**：plist 不在 `~/Library/LaunchAgents/` → 重走安装
 - **tcc-denied**（field-found 2026-07-28）：`/tmp/kb-video-watchdog.err.log` 出现 `can't open file … Operation not permitted` → launchd 上下文的解释器无外置卷访问权（TCC 不继承终端权限，后台任务不弹授权框、静默失败）。**本机实测有效解**：不要试图给 python3 授 FDA（实测授了仍被拦）——用 `/bin/bash` + `watchdog-wrapper.sh` 包装模式（本 plist 现行方案，与 daily-work-mirror 等既有外置卷任务同款）；若 wrapper 模式也被拦，对照本机其他能访问同卷的 launchd 任务找已持权执行器
 - **volume-gone**：/tmp/kb-video-watchdog.err.log 有 python 报错 + 外置卷未挂载 → 挂卷后自愈，无需动 launchd
@@ -46,15 +46,15 @@ python3 -c "import json; d=json.load(open('{{KB_BASE}}/raw/系统/watchdog心跳
 ## 卸载
 
 ```sh
-launchctl bootout gui/$(id -u)/com.kb.video-analysis-watchdog
-rm ~/Library/LaunchAgents/com.kb.video-analysis-watchdog.plist
+launchctl bootout gui/$(id -u)/com.video-analysis.watchdog
+rm ~/Library/LaunchAgents/com.video-analysis.watchdog.plist
 ```
 
 ## 验收记录
 
 | 日期 | 验收项 | 结果 |
 |---|---|---|
-| 2026-07-28 | 真实负载压测（6 账号 95+ 视频） | ✅ 首轮暴露 PREPROCESSED 误报（70+），修正后误报 0；抓到真实遗孤 1 条（奶糕成精档案社/01 猫和老鼠真猫版） |
+| 2026-07-28 | 真实负载压测（6 账号 95+ 视频） | ✅ 首轮暴露 PREPROCESSED 误报（70+），修正后误报 0；抓到真实遗孤 1 条（AccountC/01 猫和老鼠真猫版） |
 | 2026-07-28 | auto-finalize 恢复动作 | ✅ 补跑被密度门禁拒收（SFX 0.38<0.5、14 镜 vs 134 硬切点）——fail-closed 未被绕过，遗孤为真质量缺陷需回 L2 补标，watchdog 如实记账 |
 | 2026-07-28 | launchd 心跳实测 | 🔴 **心跳实测抓到真实故障**：bootstrap RC=0、`launchctl print` 有条目（文件检查全绿），但状态文件 mtime 未前进——launchd 拉起的 python3 被 TCC 拦在外置卷外（tcc-denied，见故障分类）。旧验收法（只查 plist+launchctl list）会把此状态误判为"已完成"——P0-2 升级的价值实证 |
 | 2026-07-28 | tcc-denied 修复与终验 | ✅ **全闭环（19:02）**：用户授 python3 FDA 后直连**仍被拦**（field-found：FDA 给解释器二进制对 launchd 上下文不一定生效）；改用本机已验证模式——`/bin/bash` + `watchdog-wrapper.sh`（与 daily-work-mirror/patrol-weekly 等既有外置卷任务同款）→ 心跳 mtime 前进（18:15:34→19:02:07）、err.log 零新增、遗孤恢复动作正常（finalize-l2 补跑被密度门禁如实拒收）。plist 已改为 wrapper 模式并重装 |

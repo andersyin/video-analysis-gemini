@@ -45,16 +45,16 @@
 ```bash
 # 预览可释放空间
 python3 scripts/scan_helper.py --cleanup-sense \
-  --archive-dir /path/to/archive --account "kat-and-oliver"
+  --archive-dir /path/to/archive --account "AccountD"
 
 # 确认后移至隔离区（推荐，可逆）
 python3 scripts/scan_helper.py --cleanup-sense --apply \
   --quarantine-dir <archive-dir>/_process_archive \
-  --archive-dir /path/to/archive --account "kat-and-oliver"
+  --archive-dir /path/to/archive --account "AccountD"
 
 # 或直接删除（不可逆，确认无用后再用）
 python3 scripts/scan_helper.py --cleanup-sense --apply \
-  --archive-dir /path/to/archive --account "kat-and-oliver"
+  --archive-dir /path/to/archive --account "AccountD"
 ```
 
 > **隔离区约定（2026-07-26 新增）**：指定 `--quarantine-dir` 后 `--apply` 改为**移动而非删除**，文件归档到 `<quarantine-dir>/<清理日期>/<账号>/<video-id>/`。统一隔离区为 `<archive-dir>/_process_archive/`——过期文件不出归档根目录，需要回溯时按日期+账号+视频三级路径找回；确认无用后可整体删除某个日期目录。

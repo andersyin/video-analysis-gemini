@@ -45,7 +45,7 @@ def find_video_paths(archive_dir):
                 paths[state.parent.name] = target
         except Exception:
             continue
-    # 兜底：_state.json 缺失/target 失效时，按 "<video_id>.mp4" 在竞品研究根目录搜（不回写状态文件）
+    # 兜底：_state.json 缺失/target 失效时，按 "<video_id>.mp4" 在{{MEDIA_DIR}}根目录搜（不回写状态文件）
     root = Path(archive_dir).parent
     for vdir in Path(archive_dir).glob("*/videos/*"):
         vid = vdir.name

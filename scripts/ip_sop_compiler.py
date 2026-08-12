@@ -14,7 +14,7 @@ Layer 4 资产编译器 — 将分析 JSON 转化为可执行的拍摄与声音 
 用法:
   python3 ip_sop_compiler.py \
     --archive-dir /path/to/archive \
-    --account "kat-and-oliver" \
+    --account "AccountD" \
     --video-id "TOP01_xxxx" \
     --date 2026-07-25
 """
@@ -128,7 +128,7 @@ def compile_shooting_sop(data, qa_result, account, video_id, date):
 
     lines.append("### 1.3 可复用模块")
     lines.append("")
-    # asset_reusability 可能是 dict（含 reusable_modules）或纯文本描述（2026-07-27 铁头阿彪01 字符串型崩溃修复）
+    # asset_reusability 可能是 dict（含 reusable_modules）或纯文本描述（2026-07-27 AccountA01 字符串型崩溃修复）
     reusable = sop.get("asset_reusability", {})
     if isinstance(reusable, dict):
         modules = reusable.get("reusable_modules", [])

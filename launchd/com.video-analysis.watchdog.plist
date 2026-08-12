@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.kb.video-analysis-watchdog</string>
+    <string>com.video-analysis.watchdog</string>
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>{{KB_BASE}}/raw/skills/内容平台/video-analysis-gemini/launchd/watchdog-wrapper.sh</string>
+        <string>{{PROJECT_ROOT}}/launchd/watchdog-wrapper.sh</string>
     </array>
     <key>StartInterval</key>
     <integer>1800</integer>
@@ -15,9 +15,9 @@
     <true/>
     <!-- 日志放本地盘：外置卷未挂载时脚本本体都不可达，launchd 层失败要在本地盘留痕 -->
     <key>StandardOutPath</key>
-    <string>/tmp/kb-video-watchdog.out.log</string>
+    <string>/tmp/video-analysis-watchdog.out.log</string>
     <key>StandardErrorPath</key>
-    <string>/tmp/kb-video-watchdog.err.log</string>
+    <string>/tmp/video-analysis-watchdog.err.log</string>
     <key>ProcessType</key>
     <string>Background</string>
 </dict>

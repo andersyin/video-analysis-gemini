@@ -29,7 +29,7 @@ Pro 结果 schema（_pro_review_result.json）：
 
   # 查看审查结果
   python3 pro_qa_inspector.py --show-result \
-    --archive-dir /path/to/archive --account "kat-and-oliver" --video-id "TOP01_xxxx"
+    --archive-dir /path/to/archive --account "AccountD" --video-id "TOP01_xxxx"
 """
 import argparse
 import difflib
@@ -184,7 +184,7 @@ def load_grounding_payload(archive_dir, account, video_id):
 
 
 def check_placeholder_forgery(data):
-    """占位符/空串伪造检测（2026-07-27 铁头阿彪07-09 伪造交付事故新增）。
+    """占位符/空串伪造检测（2026-07-27 AccountA07-09 伪造交付事故新增）。
 
     背景：07/08/09 用骨架条目过闸——shot description="Shot 1"、quote="Quote 1"、
     VO/SFX text 全空串、honesty evidence="Saw everything"/"Detail"——条目级字段存在性
@@ -201,7 +201,7 @@ def check_placeholder_forgery(data):
     if ph:
         issues.append(f"shot_timeline 含 {ph} 条占位符描述（'Shot N' 同款）——非真实逐镜观察，拒收")
 
-    # 1b) shot_timeline 模板套话/骨架填充语（"第N镜XX画面细节描述"类，2026-07-28 铁头阿彪10/08 骨架事故：
+    # 1b) shot_timeline 模板套话/骨架填充语（"第N镜XX画面细节描述"类，2026-07-28 AccountA10/08 骨架事故：
     #     旧正则只锚定纯英文 'Shot N'，漏掉带描述性后缀的中文骨架，被密度门放行）
     _TPL = _re.compile(r"画面细节描述|画面描述|细节描述|此处描述|详见画面|内容描述|待补|(?<![无非板])占位|placeholder|TBD", _re.I)
     _vc = lambda s: str(s.get("visual_content") or s.get("description") or "") if isinstance(s, dict) else ""
@@ -617,7 +617,7 @@ def validate_pro_result(result):
     score = result.get("score")
     if not isinstance(score, (int, float)) or not (0 <= score <= 100):
         return False, "score 缺失或越界（必须为 0-100 数值）"
-    # 伪造 stub 拦截（2026-07-27 铁头阿彪07-09：184 字节 stub 自评 98 分畅通）
+    # 伪造 stub 拦截（2026-07-27 AccountA07-09：184 字节 stub 自评 98 分畅通）
     sc = result.get("spot_check")
     if not isinstance(sc, dict):
         return False, "spot_check 缺失——Pro 阶段B 必须真实 view_file 抽查并回报明细"

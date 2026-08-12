@@ -11,12 +11,12 @@
 用法:
   # 列出视频并创建归档结构
   python scan_helper.py --videos-dir /path/to/videos \
-    --account "kat-and-oliver" --platform "TikTok" \
+    --account "AccountD" --platform "TikTok" \
     --archive-dir /path/to/archive
 
   # 增量模式（跳过已归档视频）
   python scan_helper.py --videos-dir /path/to/videos \
-    --account "kat-and-oliver" --archive-dir /path/to/archive --incremental
+    --account "AccountD" --archive-dir /path/to/archive --incremental
 """
 import argparse
 import json
@@ -34,7 +34,7 @@ def find_videos(videos_dir):
 
     支持两种传入方式：
     - 具体视频子目录（如 2026-07-21-TikTokTop15/）→ 搜索该层
-    - 账号根目录（如 铁头阿彪/）→ 递归搜索所有子目录
+    - 账号根目录（如 AccountA/）→ 递归搜索所有子目录
     """
     d = Path(videos_dir)
     if not d.is_dir():

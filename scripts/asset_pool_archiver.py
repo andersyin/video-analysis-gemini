@@ -13,14 +13,14 @@
   # 归档单个视频
   python3 asset_pool_archiver.py \
     --archive-dir /path/to/archive \
-    --account "kat-and-oliver" \
-    --video-id "KatOliver_TOP01_7341470837029047595" \
+    --account "AccountD" \
+    --video-id "SubjectBSubjectA_TOP01_7341470837029047595" \
     --date 2026-07-25
 
   # 归档账号下所有视频
   python3 asset_pool_archiver.py \
     --archive-dir /path/to/archive \
-    --account "kat-and-oliver" \
+    --account "AccountD" \
     --all
 
   # 查看音效库统计
@@ -106,7 +106,7 @@ def extract_sfx(data, video_id, account):
 
     # 1. SFX 时间轴
     for sfx in audio.get("sfx_timeline", []):
-        # 名称回退链 name→sfx_name→type（2026-07-31 体检：铁头阿彪型条目名称在 name 字段，
+        # 名称回退链 name→sfx_name→type（2026-07-31 体检：AccountA型条目名称在 name 字段，
         # 旧逻辑只读 type 导致 152 条入库为 "foley"/"synthesized" 语义空壳，第 6 处契约错位）
         sfx_name = sfx.get("name", sfx.get("sfx_name", sfx.get("type", "")))
         sfx_type = sfx.get("type", "")
@@ -310,7 +310,7 @@ def main():
             video_id = json_file.parent.name
             date = json_file.stem.replace("analysis_", "")
             videos_to_archive.append((video_id, date, json_file))
-        # 同视频多份分析 JSON 只取最新日期，避免新旧版条目混入（2026-07-31：铁头阿彪 02/03 双版共存）
+        # 同视频多份分析 JSON 只取最新日期，避免新旧版条目混入（2026-07-31：AccountA 02/03 双版共存）
         latest = {}
         for video_id, date, json_file in videos_to_archive:
             if video_id not in latest or date > latest[video_id][1]:

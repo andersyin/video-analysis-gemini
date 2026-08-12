@@ -6,7 +6,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from difflib import SequenceMatcher
 
-ARCHIVE = Path("{{MEDIA_DIR}}/竞品研究/对标视频分析资产")
+ARCHIVE = Path("{{MEDIA_DIR}}/analysis_archive")
 
 all_data = []
 for acct_dir in sorted(ARCHIVE.iterdir()):
@@ -38,7 +38,7 @@ def normalize_vc(vc):
     vc = re.sub(r'[（(][^）)]*[）)]', '', vc)
     # 去掉常见结构词
     vc = re.sub(r'(在车内驾驶座|在地毯边|在卧室门口|在沙发|在茶几|在客厅|在厨房|在窗台|在床)', '在X', vc)
-    vc = re.sub(r'(Oliver|Kat|米妞|Naomi|阿彪|奶糕|凑小狗|狗刻|铲屎官|猪柳蛋|矢量|白色小狗|主人|黑白猫咪|棕色腊肠犬|英短蓝白猫|棕白田园犬|橘猫|金发女生|约会男生)', 'SUBJECT', vc)
+    vc = re.sub(r'(SubjectA|SubjectB|SubjectC|SubjectD|SubjectE|AccountC|SubjectF|SubjectG|SubjectH|SubjectI|SubjectJ|白色小狗|主人|黑白猫咪|棕色腊肠犬|英短蓝白猫|棕白田园犬|橘猫|金发女生|约会男生)', 'SUBJECT', vc)
     vc = re.sub(r'(伸长脖子凑近镜头，湿润鼻头特写|在X周围踱步转圈，眼神瞟向零食袋|前爪先着地缓冲，背景呈暖色调灯光|前爪搭上膝盖，舌头伸出轻轻舔嘴唇|跳上沙发挤在两人中间，尾巴快速摆动|眼睛直钩钩盯着侧面镜头，耳朵微微前竖)', 'ACTION', vc)
     return vc.strip()
 

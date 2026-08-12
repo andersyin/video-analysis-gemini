@@ -15,18 +15,18 @@
 用法:
   # L2 完成后：验证 analysis JSON 并标记 FLASH_EXTRACTED（替代 Agent 手写 _state.json）
   python3 session_guard.py --mark-flash-extracted \
-    --archive-dir /path/to/archive --account "kat-and-oliver" \
+    --archive-dir /path/to/archive --account "AccountD" \
     --video-id "TOP01_xxxx" --date 2026-07-26
 
   # 开工前检查：扫描所有视频状态，推荐下一步行动
   python3 session_guard.py --preflight \
-    --archive-dir /path/to/archive --account "kat-and-oliver"
+    --archive-dir /path/to/archive --account "AccountD"
 
   # 状态篡改检测：检查特定视频或全量视频的 _state.json 完整性
   python3 session_guard.py --validate-state \
-    --archive-dir /path/to/archive --account "kat-and-oliver"
+    --archive-dir /path/to/archive --account "AccountD"
   python3 session_guard.py --validate-state \
-    --archive-dir /path/to/archive --account "kat-and-oliver" --video-id "TOP01_xxxx"
+    --archive-dir /path/to/archive --account "AccountD" --video-id "TOP01_xxxx"
 """
 import argparse
 import json
@@ -63,7 +63,7 @@ TAMPER_SIGNATURES = {
 MIN_L2_DURATION_SEC = 60
 
 # watchdog（2026-07-26）：analysis 齐 5 板块但状态仍 PREPROCESSED 的宽限期（秒），
-# 超过即判定为"写完收工忘跑 finalize-l2"遗孤（c97c5b1f / 铁头阿彪02 两次复现的行为违规签名）
+# 超过即判定为"写完收工忘跑 finalize-l2"遗孤（session_id_demo / AccountA02 两次复现的行为违规签名）
 ORPHAN_ANALYSIS_GRACE_SEC = 600
 
 # 5 板块清单（与 SKILL.md / mark-flash-extracted 校验一致）
@@ -188,7 +188,7 @@ def check_density_gates(analysis, video_dir):
 
     sfx_min = tier.get("sfx_density_per_10s_min")
     if sfx_min is not None and sfx_density < sfx_min:
-        # 近临例外（2026-08-06 奶糕10号实证）：SFX 密度差一点达标但条目真实，
+        # 近临例外（2026-08-06 AccountC10号实证）：SFX 密度差一点达标但条目真实，
         # 达到阈值 80% 即降级为告警
         if sfx_density >= sfx_min * 0.8 and len(sfx) >= 5:
             warnings.append(
@@ -203,7 +203,7 @@ def check_density_gates(analysis, video_dir):
 
     vo_min = tier.get("vo_density_per_10s_min")
     if vo_min is not None and vo and vo_density < vo_min:
-        # 稀疏对话例外（2026-08-06 奶糕07号实证）：萌宠/音乐视频等可能全片仅有几句话，
+        # 稀疏对话例外（2026-08-06 AccountC07号实证）：萌宠/音乐视频等可能全片仅有几句话，
         # VO 条目真实但数量少不等于 L2 漏标。条件：条目真实(非占位/每条文本>5字) +
         # 总数≤6 + VO 覆盖率<15% → 降级为告警
         vo_texts = [str(v.get("text", "") or v.get("content", "") or "").strip()
@@ -235,7 +235,7 @@ def check_density_gates(analysis, video_dir):
             if isinstance(cine, dict) else []
         beats = nar.get("story_beats", []) or []
         bgm = audio.get("bgm_timeline", []) if isinstance(audio, dict) else []
-        # ai_fx 时间轨（2026-07-27 补盲区：铁头阿彪01 重感知 scene_timeline 两条 +100s 越界未被拦）
+        # ai_fx 时间轨（2026-07-27 补盲区：AccountA01 重感知 scene_timeline 两条 +100s 越界未被拦）
         fx = analysis.get("ai_fx", {}) if isinstance(analysis.get("ai_fx"), dict) else {}
         fx_scenes = fx.get("scene_timeline", []) or []
         fx_micro = fx.get("micro_motion_moments", []) or []
@@ -289,7 +289,7 @@ def check_density_gates(analysis, video_dir):
                     f"涉嫌过度切分或模板填充（参考反例：01 号 142 条等长填充）"
                 )
 
-    # 7. VO 边界链接嫌疑检查（2026-08-04 监督审计 I-1，羊和狗刻03 重跑实证）：
+    # 7. VO 边界链接嫌疑检查（2026-08-04 监督审计 I-1，AccountE03 重跑实证）：
     # 新版感知把 VO 句边界链式合并（end=next.start），吞掉 whisper 实测 14s 句间静默，
     # 产出假 100% 覆盖时间轴（而 macro 声明的 ratio 反而诚实）。双条件同时成立硬拒：
     # VO 去重叠合并覆盖 ≥99.5% 总时长 且 whisper 句间静默合计 ≥5s。
@@ -335,7 +335,7 @@ def check_density_gates(analysis, video_dir):
 def check_contract_completeness(analysis):
     """契约完整性门禁（2026-07-26 biaoda 同片对比复盘新增）。
 
-    背景：铁头阿彪04 的 narrative.hook_analysis={} 与 sop.monetization={} 空块
+    背景：AccountA04 的 narrative.hook_analysis={} 与 sop.monetization={} 空块
     带着 QA 98 分过审——密度门禁只数 timeline 条数，不看契约字段是否空置。
     规则：
     - contract sections.top 硬必填：字段缺失 → 拒收
@@ -393,7 +393,7 @@ def check_contract_completeness(analysis):
 def check_shot_authenticity(analysis):
     """反模板填充门禁（2026-07-26 biaoda 同片对比复盘新增）。
 
-    背景：铁头阿彪01 的 shot_timeline 存在大段严格等长 1.65s（= baseline ASL）的
+    背景：AccountA01 的 shot_timeline 存在大段严格等长 1.65s（= baseline ASL）的
     中景/近景/特写循环 + 逐条复制的 visual_content——程序化凑密度绕过密度门禁拿 95 分。
     规则：
     - 连续 ≥8 镜时长完全相等（±0.01s）→ 拒收（真实剪辑不可能）
@@ -428,7 +428,7 @@ def check_shot_authenticity(analysis):
             run = 1
             cur_start = i
     if max_run >= 8:
-        # 内容多样性例外（2026-08-06 奶糕09号实证）：音乐节拍切分等合法场景
+        # 内容多样性例外（2026-08-06 AccountC09号实证）：音乐节拍切分等合法场景
         # 也会产生等长连打，但每镜 visual_content 不同。如果连打中内容唯一度≥70%，放行。
         import re as _re2
         run_shots = shots[max_run_start:max_run_start + max_run]
@@ -472,7 +472,7 @@ def check_shot_authenticity(analysis):
 def check_stt_coverage_flag(analysis, video_dir):
     """STT 低覆盖降级标记（2026-07-26 biaoda 同片对比复盘新增，不拒收）。
 
-    背景：铁头阿彪01 Whisper 覆盖率 0.53（川渝方言错听），narrative 直接引用错听
+    背景：AccountA01 Whisper 覆盖率 0.53（川渝方言错听），narrative 直接引用错听
     文本长出'足球退役人物'虚构故事线，QA 95 分未拦截。
     规则：coverage < 0.70 → 不拒收（方言错听非感知者之过），但：
     - 醒目告警：narrative 禁止直接引用 STT 文本结论，台词须以多模态听写为准
@@ -518,7 +518,7 @@ def find_analysis_files(video_dir):
 def inspect_orphan_analysis(video_dir):
     """PREPROCESSED 状态下盘点最新 analysis_*.json 的板块完成度（watchdog，2026-07-26）
 
-    背景：铁头阿彪02 两次复现"写完 JSON 未跑 finalize-l2"——状态停在 PREPROCESSED，
+    背景：AccountA02 两次复现"写完 JSON 未跑 finalize-l2"——状态停在 PREPROCESSED，
     preflight 旧逻辑会推荐重进 L2，白白浪费一次 45-70 分钟完整感知。以磁盘为准盘点：
     - 5 板块齐 → 遗孤，P0 直接 finalize-l2（禁止重进 L2）
     - 部分板块 → 续跑只补缺失板块（上下文截断恢复路径，不信记忆）
@@ -766,7 +766,7 @@ def cmd_mark_flash_extracted(args, print_next_hint=True):
             print(f"   🔴 {f_}")
         sys.exit(1)
 
-    # 2.75 占位符/空串伪造签名门禁（2026-07-27 铁头阿彪07-09 伪造交付事故新增）：
+    # 2.75 占位符/空串伪造签名门禁（2026-07-27 AccountA07-09 伪造交付事故新增）：
     # 'Shot N'/'Quote N'/'Detail' 占位符、VO/SFX 空串凑数、短于 30 字符的 honesty evidence
     try:
         from pro_qa_inspector import check_placeholder_forgery
@@ -840,7 +840,7 @@ def cmd_mark_flash_extracted(args, print_next_hint=True):
 def cmd_finalize_l2(args):
     """L2 收尾一键化（2026-07-26 加固）：mark-flash-extracted + L3 阶段A 组包同进程连跑
 
-    背景：transcript c97c5b1f 实锤了行为违规失败模式——Agent 写完 analysis 后空响应收工，
+    背景：transcript session_id_demo 实锤了行为违规失败模式——Agent 写完 analysis 后空响应收工，
     没跑 f2/f3 两步，产物成为孤儿。把两步合成一条命令后，原子绑定间隙物理消失：
     - 任一验证/门禁失败 → 同进程 sys.exit，状态不动，天然幂等
     - 门禁通过 → 立即 subprocess 拉起 pro_qa_inspector.py --emit-review-packet（秒级、零流式）
@@ -871,7 +871,7 @@ def cmd_finalize_l2(args):
 def cmd_emit_l2_skeleton(args):
     """从 schema_contract.json 生成 L2 analysis 骨架（写前预检机械化，2026-07-26）
 
-    背景：铁头阿彪02 事故——Agent 凭记忆构造 JSON 结构，一次漏 9 个契约必填字段 +
+    背景：AccountA02 事故——Agent 凭记忆构造 JSON 结构，一次漏 9 个契约必填字段 +
     honesty_report 位置写错，finalize-l2 连拦 3 轮。本命令把「写前预检铁律」从自觉阅读
     变成机器发牌：骨架含全部契约必填字段（含 _meta.honesty_report 嵌套结构），
     Agent 照骨架填空即可一次过结构门禁。

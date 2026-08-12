@@ -2,7 +2,7 @@
 
 ## 2026-07-28 · agy CLI headless 批量编排实跑固化 + 骨架变体门禁补齐
 
-**背景**：首次用 `agy` CLI headless 自主过夜跑铁头阿彪 07-12（原 skill 只设想 GUI 交互式 view_file）。实跑净交付 07/11 全流程（Pro 95），并踩平沙箱/token/字段契约/伪造一串坑，经验固化进 SKILL。
+**背景**：首次用 `agy` CLI headless 自主过夜跑AccountA 07-12（原 skill 只设想 GUI 交互式 view_file）。实跑净交付 07/11 全流程（Pro 95），并踩平沙箱/token/字段契约/伪造一串坑，经验固化进 SKILL。
 
 - SKILL.md 新增《agy CLI Headless 批量编排》节：铁律①必须出沙箱运行（否则 agy 写 `~/.gemini/`token 与 code-action 均 `operation not permitted`→整点 token 到期 401 暴毙）；铁律②agy 只 view_file+write_file，finalize/评分/L4/状态跳变下沉编排方本地跑；铁律③token 边界对基础设施性失败重试、内容质量失败不重试；实测能力边界表（短/中片✅、密镜/长片❌）+ 派发前预筛。
 - `check_placeholder_forgery` 补骨架变体检测：模板套话正则（“画面细节描述”类）+ shot visual_content 去数字后唯一度<50% 拒收——堵住旧正则（只锚定纯英文 `Shot N`）漏掉的中文骨架“第N镜…描述”。回归：08 伪造骨架 110 镜命中拒收 ✅、07/11 真件 PASS、10 真实密镜零误伤。
@@ -19,7 +19,7 @@
 - 回归：01 号 REJECT（index 39/39、shot_type 39/39、technique 8/8 全命中）；02/04 号零误伤
 - 已交付的 01 号做机械别名归一（index←shot_id ×39、technique←fx_type ×8，纯键名映射不编造）；shot_type 39 条缺失如实保留——已交付资产的已知债务，待定向补感知时回填
 
-## 2026-07-27 · 铁头阿彪01 重感知二次验收：ai_fx 边界盲区修补 + SOP 编译器类型防御
+## 2026-07-27 · AccountA01 重感知二次验收：ai_fx 边界盲区修补 + SOP 编译器类型防御
 
 **背景**：01 号重感知交付（Pro 98/round 3）后主 Agent 二次验收发现：① ai_fx.scene_timeline 两条整体 +100s 越界（247-256s/297-300s > 总时长 233.8s）——物理边界硬拒只查 6 轨不含 ai_fx，门禁盲区；内容本身有同 JSON 交叉证据（shot@147-155 剪影打斗/VO@198 老紫蜀道山），属时间戳笔误非编造，已定向 Patch 归位；② ip_sop_compiler 对 sop.asset_reusability 假定 dict，遇字符串型（契约允许的显式否定值/纯文本）崩溃。
 
@@ -42,9 +42,9 @@
 - `session_guard.check_density_gates` 新增切点锚点软告警：shot 数 <算法切点 50%（漏切）或 >2.5×（填充）告警不拒收
 - 验证：02 号基线 126 镜无告警、实验组 66 镜精确触发漏切告警；全库 payload 后台回填中（`_scene_backfill_20260727.log`）
 
-## 2026-07-26 · biaoda.me 同片对比复盘：finalize-l2 三新门禁 + Layer 4《仿写参照》
+## 2026-07-26 · external_tool 同片对比复盘：finalize-l2 三新门禁 + Layer 4《仿写参照》
 
-**背景**：用 biaoda.me 网页拆解工具对铁头阿彪01/04 做同片对比（02 号作方法对照），暴露三个已交付资产带病过审的漏洞：① 01 号 shot_timeline **142/142 条**为严格等长 1.65s（= baseline ASL）+ 同一句复制描述的模板填充，凑密度绕过密度门禁拿 QA 95 分；② 01 号 Whisper 覆盖率 0.53（川渝方言错听“组织→足球”），narrative 直接引用错听文本长出“足球退役人物”虚构故事线；③ 04 号 schema 漂移（7 个契约软必填字段缺失，含商单视频的 monetization）带 QA 98 分过审。Pro 抽查只验“真锦点”未命中填充区段——审计机制被“真锚点+假填充”组合绕过。
+**背景**：用 external_tool 网页拆解工具对AccountA01/04 做同片对比（02 号作方法对照），暴露三个已交付资产带病过审的漏洞：① 01 号 shot_timeline **142/142 条**为严格等长 1.65s（= baseline ASL）+ 同一句复制描述的模板填充，凑密度绕过密度门禁拿 QA 95 分；② 01 号 Whisper 覆盖率 0.53（川渝方言错听“组织→足球”），narrative 直接引用错听文本长出“足球退役人物”虚构故事线；③ 04 号 schema 漂移（7 个契约软必填字段缺失，含商单视频的 monetization）带 QA 98 分过审。Pro 抽查只验“真锦点”未命中填充区段——审计机制被“真锚点+假填充”组合绕过。
 
 ### 变更（代码 + 文档）
 
@@ -61,9 +61,9 @@
 - 04 号：硬门禁 PASS + 7 条软必填告警（schema 漂移显形）✅
 - 结论同步：biaoda 不接管道（无 API/自身无自检/外发依赖），仅作重点视频人工第二意见（story beats 对不齐 = 重感知信号）
 
-## 2026-07-26 · L2 写前预检铁律 + 空返回诚实度铁律（事故：铁头阿彪02 finalize-l2 连拦 3 轮）
+## 2026-07-26 · L2 写前预检铁律 + 空返回诚实度铁律（事故：AccountA02 finalize-l2 连拦 3 轮）
 
-**背景**：铁头阿彪 02 号 L2 重感知中断 3 次，复盘定位三个根因：① 写 analysis JSON 前未预读 schema_contract.json，凭 SKILL.md 文字描述构造结构，一次漏 9 个契约必填字段（ai_fx.facial_animation / narrative.script_full_text·all_quotes·macro / sop.complexity_breakdown 等）；② honesty_report 写到顶层而非 `_meta` 内；③ view_file 加载视频返回空内容，却仍在 honesty_report 写 `view_file_called: true`（实际内容靠 Whisper + 九宫格推断，诚实度缺陷）。硬门禁只能事后拦截，每拦一轮多付一轮修补代价。
+**背景**：AccountA 02 号 L2 重感知中断 3 次，复盘定位三个根因：① 写 analysis JSON 前未预读 schema_contract.json，凭 SKILL.md 文字描述构造结构，一次漏 9 个契约必填字段（ai_fx.facial_animation / narrative.script_full_text·all_quotes·macro / sop.complexity_breakdown 等）；② honesty_report 写到顶层而非 `_meta` 内；③ view_file 加载视频返回空内容，却仍在 honesty_report 写 `view_file_called: true`（实际内容靠 Whisper + 九宫格推断，诚实度缺陷）。硬门禁只能事后拦截，每拦一轮多付一轮修补代价。
 
 ### 变更（纯文档，无代码改动）
 
@@ -74,22 +74,22 @@
 
 ### 补充（同日 22:51 第二轮复盘：新增两类环境级失败模式）
 
-**追加背景**：同一任务的第二轮复盘定位另外两个平台/环境级根因：③ L2 为 45-70 分钟大流式调用，会话上下文被平台截断后断点记忆丢失；④ 宿主工具层 view_file 报 `unsupported mime type video/mp4`，Pro 阶段B 无法在本宿主抽查视频。根因①（写完 JSON 结束回合）系 c97c5b1f 同一行为违规再次复现。
+**追加背景**：同一任务的第二轮复盘定位另外两个平台/环境级根因：③ L2 为 45-70 分钟大流式调用，会话上下文被平台截断后断点记忆丢失；④ 宿主工具层 view_file 报 `unsupported mime type video/mp4`，Pro 阶段B 无法在本宿主抽查视频。根因①（写完 JSON 结束回合）系 session_id_demo 同一行为违规再次复现。
 
-- 规则 1 执行顺序第 3 条追加操作化口径：**写入第 5 个板块的那一回合，finalize-l2 必须在同一回合内**（末板块写盘与 finalize-l2 不允许隔回合），并登记铁头阿彪02 复现记录
+- 规则 1 执行顺序第 3 条追加操作化口径：**写入第 5 个板块的那一回合，finalize-l2 必须在同一回合内**（末板块写盘与 finalize-l2 不允许隔回合），并登记AccountA02 复现记录
 - 失败模式表新增 2 行：**会话上下文被平台截断/压缩**（不信记忆、以磁盘为准盘点已完成板块，只补缺失）；**宿主不支持视频 view_file**（L2 禁止在该宿主继续；Pro 阶段B 可派发原生视频 Pro subagent 持审查包抽查，禁止降级为非观看式抽查）
 - Layer 3 阶段B 新增「宿主不支持视频 view_file 时的合法回退」说明（subagent 路径 + 规则 5 登记/二次验证）
 - 步骤 3e `_meta` 示例补入 `analysis_method`（第二轮复盘确认该必填字段也曾缺失）
 
 ### 补充 2：preflight watchdog（机制化堵死行为违规，代码改动）
 
-**背景**：「写完 JSON 未跑 finalize-l2」已两次复现（c97c5b1f、铁头阿彪02），铁律文字挡不住行为违规；且旧 preflight 对此类遗孤（状态停 PREPROCESSED）会推荐重进 L2，白白浪费一次 45-70 分钟完整感知。
+**背景**：「写完 JSON 未跑 finalize-l2」已两次复现（session_id_demo、AccountA02），铁律文字挡不住行为违规；且旧 preflight 对此类遗孤（状态停 PREPROCESSED）会推荐重进 L2，白白浪费一次 45-70 分钟完整感知。
 
 - `session_guard.py` 新增 `inspect_orphan_analysis()`：PREPROCESSED 状态下以磁盘为准盘点最新 analysis 的板块完成度
 - preflight 分诊升级：齐 5 板块 → **P0_遗孤**（直出 finalize-l2 命令含正确 date，禁止重进 L2）；部分板块 → P3 续跑只补缺失板块（上下文截断恢复）；无 analysis → P3 重进 L2（与旧行为一致）
 - summary 新增 `orphan_analysis_unfinalized` 计数，stderr 摘要新增 P0 醒目提示；P0 排序先于 P1
 - SKILL.md 同步：四层防御表第 4 层改「前检查 + watchdog」；优先级清单新增 P0_遗孤条目
-- 验证：合成 3 场景（遗孤/半成品/未开工）8 项断言全 PASS；真实资产库回归铁头阿彪（15 条）+ kat-and-oliver（15 条）零误伤，且在铁头阿彪 05 号抓到真实半成品（仅 cinematography 落盘）并正确给出「只补 4 个缺失板块」建议
+- 验证：合成 3 场景（遗孤/半成品/未开工）8 项断言全 PASS；真实资产库回归AccountA（15 条）+ AccountD（15 条）零误伤，且在AccountA 05 号抓到真实半成品（仅 cinematography 落盘）并正确给出「只补 4 个缺失板块」建议
 
 ### 补充 3：emit-l2-skeleton 骨架生成器（写前预检机械化，代码改动）
 
@@ -98,7 +98,7 @@
 - `session_guard.py` 新增 `emit-l2-skeleton` 子命令：从 schema_contract.json 生成含全部必填字段的 analysis 骨架（`_meta.honesty_report` 嵌套结构/`analysis_method`/逐板块 top+macro）+ stderr 必填清单；支持 `--out`（硬拒 analysis_*.json 文件名，防污染 watchdog 盘点）
 - 安全设计：honesty 预置 false、timeline 预置 []，不真实填写必被 finalize-l2 拒绝，骨架无法被当作伪造产物
 - SKILL.md Layer 2 步骤 2 新增「预检机械化」入口；工具集表同步
-- 验证：骨架对照契约逐字段断言——全部 top/macro 必填字段在位（含铁头阿彪02 事故漏掉的 9 字段），honesty sections 覆盖 5 板块；analysis_*.json 文件名硬拒生效；watchdog 自测 8 断言回归全 PASS
+- 验证：骨架对照契约逐字段断言——全部 top/macro 必填字段在位（含AccountA02 事故漏掉的 9 字段），honesty sections 覆盖 5 板块；analysis_*.json 文件名硬拒生效；watchdog 自测 8 断言回归全 PASS
 
 ## 2026-07-26 · 物理锚点三层防线 + 单视频模态并发（实验模式）
 
@@ -109,7 +109,7 @@
 - `preprocessor.py`：payload 新增 `_system_boundary`（strict_duration_sec/strict_fps/total_frames/time_range_rule）
 - `prompt_header.json`：头部新增【物理边界声明·绝对铁律】模板 + 3 个新 field_mappings
 - `session_guard.check_density_gates`：新增物理边界硬拒——六类时间轴任一时间戳 > 真实时长+0.5s 即 failure（finalize-l2/mark 两入口同时生效）
-- 验证：铁头阿彪 02 真实交付件 0 误伤；注入 999.9s/250.0s 篡改件被硬拒（overruns=2）
+- 验证：AccountA 02 真实交付件 0 误伤；注入 999.9s/250.0s 篡改件被硬拒（overruns=2）
 
 ### 单视频模态并发（实验模式，未转正）
 
@@ -120,7 +120,7 @@
 
 ## 2026-07-26 · 渐进落盘铁律（事故 2d8ee957：单轮输出上限吞掉感知成果）
 
-**背景**：铁头阿彪 02 号第二次 L2 尝试（任务 2d8ee957）：感知完整完成（48 镜/24+ SFX/132 句 VO 对齐），但在一次性组织 5 板块巨型 JSON 时触发单轮输出上限，analysis 未落盘，成果只存在于会话上下文——比原子绑定间隙更早的新失败点。
+**背景**：AccountA 02 号第二次 L2 尝试（任务 2d8ee957）：感知完整完成（48 镜/24+ SFX/132 句 VO 对齐），但在一次性组织 5 板块巨型 JSON 时触发单轮输出上限，analysis 未落盘，成果只存在于会话上下文——比原子绑定间隙更早的新失败点。
 
 ### 变更（纯文档，无代码改动）
 
@@ -130,19 +130,19 @@
 
 ## 2026-07-26 · finalize-l2 一键化加固（针对行为违规失败模式）
 
-**背景**：Antigravity transcript c97c5b1f 实锤新失败模式——Agent 写完 analysis_2026-07-26.json 后 Step 52 空响应主动结束回合，未跑 f2/f3 两步，产物成孤儿（状态悬空 PREPROCESSED）；后续服务重启/SSE EOF 仅为补刀。铁律文字约束挡不住行为违规，改用机制堵死。
+**背景**：Antigravity transcript session_id_demo 实锤新失败模式——Agent 写完 analysis_2026-07-26.json 后 Step 52 空响应主动结束回合，未跑 f2/f3 两步，产物成孤儿（状态悬空 PREPROCESSED）；后续服务重启/SSE EOF 仅为补刀。铁律文字约束挡不住行为违规，改用机制堵死。
 
 ### 变更
 
 - `session_guard.py` 新增 **`finalize-l2`** 子命令（推荐入口）：完整复用 mark-flash-extracted 的验证+密度门禁+状态写入，门禁通过后**同进程**拉起 `pro_qa_inspector.py --emit-review-packet`——f2/f3 两步合一，原子绑定间隙物理消失。任一环节失败同进程退出、状态不动，天然幂等
 - `cmd_mark_flash_extracted` 加 `print_next_hint` 参数（finalize 模式下不打印手动指令），旧两步式保留兼容但不再推荐
 - SKILL.md 同步 4 处：规则 1 执行顺序改为一条命令 + 新增「禁止写完 JSON 就结束回合」；Layer 2 f2/f3 合并；状态机铁律白名单；工具集表
-- 接力包（铁头阿彪 02 号）执行清单同步改用 finalize-l2
+- 接力包（AccountA 02 号）执行清单同步改用 finalize-l2
 
 ### 验证（2026-07-26）
 
 - 失败路径：02 号真实目录（无 analysis）→ rc=1 干净拒绝，状态未动
-- 成功路径：铁头阿彪 01 影子副本（/tmp，重置为 PREPROCESSED）→ 一条命令直达 PRO_AUDITING，history 完整（PREPROCESSED→FLASH_EXTRACTED→PRO_AUDITING），packet 就位；测试目录已清理
+- 成功路径：AccountA 01 影子副本（/tmp，重置为 PREPROCESSED）→ 一条命令直达 PRO_AUDITING，history 完整（PREPROCESSED→FLASH_EXTRACTED→PRO_AUDITING），packet 就位；测试目录已清理
 
 ## 2026-07-26 · 吞吐提速批次 1（验收后提速建议 1+3 落地）
 
@@ -154,12 +154,12 @@
 - **感知转码阈值 20MB → 10MB**（`preprocessor.py` DEFAULT_SENSE_THRESHOLD_MB）：一次 broken pipe 的代价是整段 L2（45-70min）重来，转码已验证不伤感知，更小请求体压低上传失败率与传输耗时
 - SKILL.md 同步：阈值口径 4 处 + Layer 1 批量模式用法 + 工具集表注册 batch_preprocess.py
 - 环境修复：whisper CLI 缺失（历史产出证明曾可用），以 `uv tool install openai-whisper` 重装（`~/.local/bin/whisper`，model base，与 preprocessor 现有调用接口匹配）
-- 补建账：`jiayitsui 碎嘴 naomi`（YouTube）、`羊和狗刻`（抖音）执行 `--init-account`，6 账号建账齐全
+- 补建账：`AccountF`（YouTube）、`AccountE`（抖音）执行 `--init-account`，6 账号建账齐全
 
 ### 首次执行（2026-07-26）
 
-- 单条验证：铁头阿彪 03（68.1s/条：Whisper 42 句 + 感知轨 75.8MB→5.9MB + baseline 真实注入）
-- 全量批次后台启动（6 账号 ≈ 90 条），日志：`<archive-dir>/_batch_l1_20260726.log`，runner：`scripts/run_batch_l1_20260726.sh`（一次性，可重复执行）
+- 单条验证：AccountA 03（68.1s/条：Whisper 42 句 + 感知轨 75.8MB→5.9MB + baseline 真实注入）
+- 全量批次后台启动（6 账号 ≈ 90 条），日志：`<archive-dir>/_batch_l1_20260726.log`，runner：`scripts/run_batch_l1.sh`（一次性，可重复执行）
 
 ## 2026-07-26 · 过程文件清理升级（隔离区机制）
 
@@ -173,9 +173,9 @@
 
 ### 首次执行（2026-07-26）
 
-- 主人必须屎 TOP01：`_pro_review_packet.json` + 过期 Whisper JSON → 隔离区
-- 铁头阿彪 TOP01：同上 2 个 → 隔离区
-- 在途资产零接触：铁头阿彪 TOP02（PREPROCESSED，即将实跑）、奶糕「猫和老鼠」（PROBE_REPAIRING）全部完好
+- AccountB TOP01：`_pro_review_packet.json` + 过期 Whisper JSON → 隔离区
+- AccountA TOP01：同上 2 个 → 隔离区
+- 在途资产零接触：AccountA TOP02（PREPROCESSED，即将实跑）、AccountC「猫和老鼠」（PROBE_REPAIRING）全部完好
 - 隔离区：`<archive>/_process_archive/2026-07-26/`（4 文件，0.2MB）
 
 ## 2026-07-26 · 密度口径统一 + 门禁自动化（基于 A/B 测试报告）
@@ -211,7 +211,7 @@
 
 ### 验证
 
-- 密度门禁对主人必须屎 TOP01（117.84s → mid 档）：镜头 1.78≥1.5 ✓、ASL 5.61∈[3,8] ✓、SFX 0.51<1.0 ✗ 正确拦截（SFX 遗漏是唯一真实密度缺口）
+- 密度门禁对AccountB TOP01（117.84s → mid 档）：镜头 1.78≥1.5 ✓、ASL 5.61∈[3,8] ✓、SFX 0.51<1.0 ✗ 正确拦截（SFX 遗漏是唯一真实密度缺口）
 - honesty 门禁合成样本（声称 157s vs 真实 117.84s）：✅ 正确 RED 拦截
 - 契约同步校验：🟢 prompts.json ↔ schema_contract.json 完全对齐
 
@@ -243,7 +243,7 @@
 
 - `validate-state` 对猫和老鼠视频：✅ 检出 `attempts` 字段 + 25 秒早产标记（severity=critical）
 - `preflight` 对猫和老鼠视频：✅ P1_紧急 "卡在 L2→L3 间隙" + 正确推荐 `pro_qa_inspector --emit-review-packet` 命令
-- `preflight` 对铁头阿彪账号：✅ 12 条视频状态扫描，1 完成/1 在途/0 卡住，会话预算剩 1 推荐尽快收尾
+- `preflight` 对AccountA账号：✅ 12 条视频状态扫描，1 完成/1 在途/0 卡住，会话预算剩 1 推荐尽快收尾
 
 ### 设计判定
 
@@ -272,7 +272,7 @@
 - **网络层自查指引**（SKILL.md）：代理 NO_PROXY 须含 127.0.0.1/localhost；自建 Sidecar 超时（IdleConn/ResponseHeader/KeepAlive）≥300s
 - **过程文件清理**：`scan_helper.py --cleanup-sense`（默认 dry-run，`--apply` 执行）——只清 `PASS_DELIVERED` 视频的 `_sense.mp4`/`_sense_audio.m4a`/`_pro_review_packet.json`（可再生），在途分析不动；**固化为流水线「第 8 步」**：报告输出后自动执行 `--apply`（状态门禁保证安全），收尾汇报需附清理结果；Whisper 原始输出 `<片名>.json` 改由 preprocessor 解析后自动删除（内容已并入 payload，此前无消费者滞留）。实测 dry-run 不误删、`--apply` 只清已交付、在途（PRO_AUDITING）完好
 
-### 同日验收修复（主人必须屎 TOP01 验收发现）
+### 同日验收修复（AccountB TOP01 验收发现）
 
 - **硬门禁漏洞（P0）**：`pro_qa_inspector.py` 的 `run_hard_gate_checks` 此前只经 `_load_sections()` 读契约*板块列表*做存在性检查，**从不校验板块内 top 必填字段**——导致 `narrative.emotional_timeline`（契约 top 必填）缺失仍一路 PASS_DELIVERED。已新增 `_load_section_top_fields()` + 硬门禁逐字段检查（缺失/空数组/空对象均拦截），复测该 analysis 现在正确 RED 拦截
 - **validate_schema 误报（P1）**：`avg_shot_length` 校验旧口径 `sum(duration_sec)/len`，Flash 产出常不含 `duration_sec` 字段导致 sum=0 误报不一致；已加 `end_sec-start_sec` 兜底，复测误报消除且真实缺失仍检出

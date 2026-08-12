@@ -78,7 +78,7 @@ def norm_category(entry, text):
         return "戏剧性SFX"
     if etype in ("ambient", "环境"):
         return "环境音"
-    # 末级兼容：type 空但名称/描述语义明确（2026-07-31：铁头阿彪 131 条 type 空 + kat 英文条目）
+    # 末级兼容：type 空但名称/描述语义明确（2026-07-31：AccountA 131 条 type 空 + kat 英文条目）
     lower = text.lower()
     if kw(text, "提示音", "语音", "按键", "触屏", "POS", "App", "车机", "机械合成", "电子音"):
         return "UI/游戏音效"

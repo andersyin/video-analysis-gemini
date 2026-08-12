@@ -2,8 +2,8 @@
 """账号级报告自动汇聚引擎 —— 从底层 JSON 自动计算参数矩阵并生成 Markdown 报告。
 
 用法:
-  python synthesis_engine.py --archive-dir /path/to/archive --account "kat-and-oliver"
-  python synthesis_engine.py --archive-dir /path/to/archive --account "kat-and-oliver" --date 2026-07-24
+  python synthesis_engine.py --archive-dir /path/to/archive --account "AccountD"
+  python synthesis_engine.py --archive-dir /path/to/archive --account "AccountD" --date 2026-07-24
 
 产出:
   <archive-dir>/<account>/account_formula_<date>.md  — 账号级公式提炼报告

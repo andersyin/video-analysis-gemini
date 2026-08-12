@@ -21,7 +21,7 @@ watchdog 自身心跳（Liveness is the ONLY honest status）：
 
 用法：
   python3 standalone_watchdog.py \
-    --archive-dir "{{MEDIA_DIR}}/竞品研究/对标视频分析资产" \
+    --archive-dir "{{MEDIA_DIR}}/analysis_archive" \
     [--stale-min 90] [--auto-finalize] [--status-file <path>] [--log-file <path>]
 
   launchd 安装/验证：见同目录 launchd/README_watchdog_install.md

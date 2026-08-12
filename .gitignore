@@ -1,8 +1,41 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
-.DS_Store
+*.pyd
 *.egg-info/
 dist/
 build/
+.eggs/
+
+# Environment
 .env
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+/tmp/video-analysis-watchdog.*
+
+# Analysis outputs (generated at runtime)
+analysis_*.json
+_state.json
+_grounding_payload.json
+_pro_review_result*.json
+_qa_result*.json
+_pro_review_packet.json
+_batch_l1_*.log
+account_formula_*.md

@@ -14,8 +14,8 @@
 
 用法（每账号一次调用）:
   python3 batch_preprocess.py \
-    --videos-dir "/path/to/竞品研究/铁头阿彪" \
-    --account "铁头阿彪" \
+    --videos-dir "/path/to/videos/AccountA" \
+    --account "AccountA" \
     --archive-dir /path/to/archive \
     [--sense-threshold-mb 10] [--limit N] [--dry-run]
 """

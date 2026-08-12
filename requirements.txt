@@ -1,0 +1,7 @@
+# Python dependencies
+# All scripts use only the Python standard library (json, re, pathlib, collections, etc.)
+# No pip packages required for the core scripts.
+
+# External tools (not pip packages, install separately):
+# - ffmpeg + ffprobe: brew install ffmpeg
+# - whisper (STT): pip install openai-whisper

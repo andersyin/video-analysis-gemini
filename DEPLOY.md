@@ -1,70 +1,70 @@
-# 部署说明
+# Deployment Guide
 
-## 环境配置
+## Environment Setup
 
-本项目使用占位符代替个人绝对路径，部署时需替换为实际路径。
+This project uses placeholders instead of hardcoded personal paths. Replace them before running.
 
-### 占位符说明
+### Placeholders
 
-| 占位符 | 说明 | 示例 |
-|--------|------|------|
-| `{{KB_BASE}}` | Knowledge Base 根目录 | `/Users/yourname/Documents/KnowledgeBase` |
-| `{{MEDIA_DIR}}` | 媒体资产目录 | `/Users/yourname/Media/Research` |
-| `{{BASE}}` | 项目基础目录 | `/Users/yourname/Documents` |
+| Placeholder | Meaning | Example |
+|-------------|---------|---------|
+| `{{PROJECT_ROOT}}` | This repo's root directory | `/home/user/video-analysis-gemini` |
+| `{{MEDIA_DIR}}` | Your media assets directory | `/home/user/Media` |
 
-### 替换方法
+### Bulk Replacement
 
 ```bash
-# 在项目根目录执行
-find . -type f \( -name "*.py" -o -name "*.sh" -o -name "*.plist" -o -name "*.md" \) -exec sed -i '' \
-  -e "s|{{KB_BASE}}|$KB_BASE|g" \
+PROJECT_ROOT=$(pwd)
+MEDIA_DIR="$HOME/Media"
+
+find . -type f \( -name "*.py" -o -name "*.sh" -o -name "*.plist" -o -name "*.md" \) -exec sed -i \
+  -e "s|{{PROJECT_ROOT}}|$PROJECT_ROOT|g" \
   -e "s|{{MEDIA_DIR}}|$MEDIA_DIR|g" \
-  -e "s|{{BASE}}|$BASE|g" \
   {} \;
 ```
 
-或手动修改以下文件中的占位符：
+Files requiring placeholder replacement:
 - `scripts/standalone_watchdog.py`
 - `scripts/cross_validate.py`
 - `scripts/vc_cross_acct.py`
 - `scripts/vo_quality_check.py`
-- `scripts/run_batch_l1_20260726.sh`
+- `scripts/run_batch_l1.sh`
 - `launchd/watchdog-wrapper.sh`
-- `launchd/com.kb.video-analysis-watchdog.plist`
+- `launchd/com.video-analysis.watchdog.plist`
 - `launchd/README_watchdog_install.md`
 - `references/setup_准备与归档结构.md`
 
-## 依赖安装
+## Dependencies
 
 ```bash
-pip install -r requirements.txt  # 如有
+# Python standard library only — no pip packages needed for core scripts
+# External tools:
+brew install ffmpeg          # ffprobe + ffmpeg
+pip install openai-whisper   # STT transcription
 ```
 
-## 快速开始
+## Quick Start
 
-详见 [SKILL.md](SKILL.md) 核心使用指南。
+See [SKILL.md](SKILL.md) for the full usage guide.
 
-## Launchd 配置
-
-launchd 相关配置在 `launchd/` 目录，安装前需先替换路径占位符。
+## Launchd Configuration
 
 ```bash
-# 复制 plist 到 launchd
-cp launchd/com.kb.video-analysis-watchdog.plist ~/Library/LaunchAgents/
+# Copy plist to LaunchAgents
+cp launchd/com.video-analysis.watchdog.plist ~/Library/LaunchAgents/
 
-# 加载
-launchctl load ~/Library/LaunchAgents/com.kb.video-analysis-watchdog.plist
+# Load
+launchctl load ~/Library/LaunchAgents/com.video-analysis.watchdog.plist
 ```
 
-## 项目结构
+## Project Structure
 
 ```
 video-analysis-gemini/
-├── SKILL.md                    # 核心技能说明
-├── assets/                     # 模板文件
-├── experiments/                # 实验记录
-├── launchd/                    # 后台守护进程配置
-├── references/                 # 参考文档
-├── scripts/                    # 核心脚本
-└── DEPLOY.md                   # 本文件
+├── SKILL.md                    # Core skill specification
+├── assets/                     # Output templates
+├── experiments/                # A/B test scripts
+├── launchd/                    # macOS watchdog config
+├── references/                 # Technical documentation
+└── scripts/                    # Core pipeline scripts
 ```

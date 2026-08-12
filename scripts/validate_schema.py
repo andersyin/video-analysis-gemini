@@ -4,13 +4,13 @@
 
 用法:
   # 验证某账号所有分析文件
-  python validate_schema.py --archive-dir /path/to/archive --account "kat-and-oliver"
+  python validate_schema.py --archive-dir /path/to/archive --account "AccountD"
 
   # 只验证指定日期
-  python validate_schema.py --archive-dir /path/to/archive --account "kat-and-oliver" --date 2026-07-24
+  python validate_schema.py --archive-dir /path/to/archive --account "AccountD" --date 2026-07-24
 
   # 严格模式（空值/偷懒行为也算失败）
-  python validate_schema.py --archive-dir /path/to/archive --account "kat-and-oliver" --strict
+  python validate_schema.py --archive-dir /path/to/archive --account "AccountD" --strict
 
 输出:
   - 逐文件检查结果（✅ 通过 / ❌ 缺失字段 / ⚠️ 空值 / 🦥 偷懒嫌疑）
@@ -324,7 +324,7 @@ def detect_laziness(data):
                         f"使用跨视频共享的动作描述，非该镜独特画面"
                     )
 
-    # ── 15. visual_content "矢量"前缀检测 ──
+    # ── 15. visual_content "SubjectJ"前缀检测 ──
     if isinstance(cine, dict):
         timeline_v = cine.get("shot_timeline", [])
         if isinstance(timeline_v, list) and timeline_v:
@@ -332,14 +332,14 @@ def detect_laziness(data):
             for item in timeline_v:
                 if isinstance(item, dict):
                     vc = item.get("visual_content", "")
-                    if "矢量" in vc:
+                    if "SubjectJ" in vc:
                         vector_count += 1
             if vector_count > 0:
                 ratio = vector_count / len(timeline_v) * 100
                 if ratio > 50:
                     issues.append(
-                        f"  🦥 cinematography: visual_content含'矢量'前缀 ({vector_count}/{len(timeline_v)}条, {ratio:.0f}%)，"
-                        f"'矢量'不是有效视觉描述词"
+                        f"  🦥 cinematography: visual_content含'SubjectJ'前缀 ({vector_count}/{len(timeline_v)}条, {ratio:.0f}%)，"
+                        f"'SubjectJ'不是有效视觉描述词"
                     )
 
     # ── 16. VO 视频名/ID 嵌入检测 ──

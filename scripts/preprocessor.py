@@ -14,7 +14,7 @@ Layer 1 预处理器 — 信号显性化预处理模块
   python3 preprocessor.py \
     --video /path/to/video.mp4 \
     --archive-dir /path/to/archive \
-    --account "kat-and-oliver" \
+    --account "AccountD" \
     --video-id "TOP01_xxxx" \
     [--sense-threshold-mb 10] [--no-sense]
 

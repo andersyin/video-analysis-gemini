@@ -3,7 +3,7 @@
 
 用法:
   python cross_video_audit.py --archive-dir /path/to/archive
-  python cross_video_audit.py --archive-dir /path/to/archive --account "kat-and-oliver"
+  python cross_video_audit.py --archive-dir /path/to/archive --account "AccountD"
 
 检测维度:
   1. SFX description 跨视频雷同（去掉视频名后是否唯一）

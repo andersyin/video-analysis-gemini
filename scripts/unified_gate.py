@@ -5,13 +5,13 @@
 
 用法:
   # 全账号检测
-  python unified_gate.py --archive-dir /path/to/archive --account "kat-and-oliver"
+  python unified_gate.py --archive-dir /path/to/archive --account "AccountD"
 
   # 只检测指定视频（单视频模式）
-  python unified_gate.py --archive-dir /path/to/archive --account "kat-and-oliver" --videos "vid1,vid2,vid3"
+  python unified_gate.py --archive-dir /path/to/archive --account "AccountD" --videos "vid1,vid2,vid3"
 
   # 严格模式：唯一率 <80% 也算不通过
-  python unified_gate.py --archive-dir /path/to/archive --account "kat-and-oliver" --strict
+  python unified_gate.py --archive-dir /path/to/archive --account "AccountD" --strict
 
 退出码:
   0 = 全部通过（GREEN）
@@ -140,16 +140,16 @@ def check_soft_templates(all_data):
 
 
 def check_vector_prefix(all_data):
-    """检测"矢量"前缀。"""
+    """检测"SubjectJ"前缀。"""
     issues = []
     for vid, f, data in all_data:
         if not data:
             continue
         cine = data.get("cinematography", {})
         shots = cine.get("shot_timeline", [])
-        count = sum(1 for s in shots if "矢量" in s.get("visual_content", ""))
+        count = sum(1 for s in shots if "SubjectJ" in s.get("visual_content", ""))
         if count > 0:
-            issues.append(f"  🦥 {vid}: '矢量'前缀 ({count}/{len(shots)}条)")
+            issues.append(f"  🦥 {vid}: 'SubjectJ'前缀 ({count}/{len(shots)}条)")
     return issues
 
 
@@ -345,8 +345,8 @@ def main():
     all_issues.extend(soft_issues)
     print(f"   {'✅ 通过' if not soft_issues else f'🦥 {len(soft_issues)} 个问题'}")
 
-    # 4. "矢量"前缀检测
-    print("\n4. '矢量'前缀检测...")
+    # 4. "SubjectJ"前缀检测
+    print("\n4. 'SubjectJ'前缀检测...")
     vector_issues = check_vector_prefix(all_data)
     all_issues.extend(vector_issues)
     print(f"   {'✅ 通过' if not vector_issues else f'🦥 {len(vector_issues)} 个问题'}")

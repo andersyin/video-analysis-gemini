@@ -5,7 +5,7 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
-ARCHIVE = Path("{{MEDIA_DIR}}/竞品研究/对标视频分析资产")
+ARCHIVE = Path("{{MEDIA_DIR}}/analysis_archive")
 
 all_data = []
 for acct_dir in sorted(ARCHIVE.iterdir()):

@@ -4,6 +4,6 @@
 # （即使给了 FDA），而既有外置卷 launchd 任务全部经 /bin/bash 正常运行
 # （daily-work-mirror / patrol-weekly / kb-media-weekly-check 同款模式）。
 exec /Library/Developer/CommandLineTools/usr/bin/python3 \
-  "{{KB_BASE}}/raw/skills/内容平台/video-analysis-gemini/scripts/standalone_watchdog.py" \
-  --archive-dir "{{MEDIA_DIR}}/竞品研究/对标视频分析资产" \
+  "{{PROJECT_ROOT}}/scripts/standalone_watchdog.py" \
+  --archive-dir "{{MEDIA_DIR}}/analysis_archive" \
   --auto-finalize

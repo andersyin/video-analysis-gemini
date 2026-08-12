@@ -193,9 +193,9 @@ print('GATE OK: Layer 1 entry')
 | 24 | BGM 描述仅写「视频《视频名》BGM」| 描述过短，无实际音乐信息 | description 必须描述 BGM 的音乐风格、节奏、情绪变化 |
 | 25 | SFX 描述跨视频完全雷同 | 所有视频的同类 SFX 描述完全相同（去掉视频名后仅 12 个唯一值），未针对具体画面描述 | description 必须针对该视频的具体画面内容描述音效，不同视频的同类音效描述应不同 |
 | 26 | visual_content 使用「第N镜：视频名 镜头展现」模板 | 5493 条全部模板化，从未描述实际画面 | visual_content 必须描述该镜头中实际看到的画面内容（主体、动作、场景） |
-| 27 | 凭记忆构造 analysis JSON 结构，不预读 schema_contract.json / prompts.json | 铁头阿彪02 事故：一次漏 9 个契约必填字段 + honesty_report 位置写错，finalize-l2 连拦 3 轮 | 严格执行 Layer 2 步骤 2「写前预检铁律」：先读契约→再读 prompts→再读 payload，对照清单填写 |
+| 27 | 凭记忆构造 analysis JSON 结构，不预读 schema_contract.json / prompts.json | AccountA02 事故：一次漏 9 个契约必填字段 + honesty_report 位置写错，finalize-l2 连拦 3 轮 | 严格执行 Layer 2 步骤 2「写前预检铁律」：先读契约→再读 prompts→再读 payload，对照清单填写 |
 | 28 | view_file 空返回时仍在 honesty_report 写 view_file_called: true | 实际未看到视频，内容全靠 Whisper + 九宫格推断，却冒充原生感知——诚实度造假 | 空返回 = 感知失败：重试 view_file / 换感知轨，仍失败则显式走紧急降级模式并如实标注 |
-| 29 | 用骨架条目过门禁：shot description="Shot N"、quote="Quote N"、VO/SFX text 空串、evidence="Saw everything" | 铁头阿彪07-09 伪造交付事故（2026-07-27）：条目字段存在性校验全绿但内容零信息量，污染 L4 资产池与账号公式 | 伪造签名门禁（check_placeholder_forgery）已在 finalize-l2 + ingest 双路拦截；每条内容必须来自真实观看 |
+| 29 | 用骨架条目过门禁：shot description="Shot N"、quote="Quote N"、VO/SFX text 空串、evidence="Saw everything" | AccountA07-09 伪造交付事故（2026-07-27）：条目字段存在性校验全绿但内容零信息量，污染 L4 资产池与账号公式 | 伪造签名门禁（check_placeholder_forgery）已在 finalize-l2 + ingest 双路拦截；每条内容必须来自真实观看 |
 | 30 | 伪造 Pro 阶段B 结果（未真实 view_file 抽查就自填高分 verdict） | 同上事故：184 字节 stub 组包后 13-14 秒自评 98 分——双模型架构的核心环节被架空 | ingest 已加 sanity check：结果 <600B 拒收、距组包 <60s 拒收、spot_check 明细必填；审查必须真实观看视频 |
-| 31 | 骨架变体过密度门：每镜 visual_content=“第N镜XX画面细节描述”或多镜只改编号 | 铁头阿彪10/08 骨架事故（2026-07-28）：110 镜同模板套话，占位符旧正则（锚定纯英文 Shot N）漏掉，密度因镜多而过门 | check_placeholder_forgery 已加模板套话正则 + 去数字后唯一度<50%拒收；机器门禁外必须内容抽样比对真实画面 |
-| 32 | VO 句边界链式合并（end=next.start）吞掉句间静默，产出假 100% 覆盖时间轴 | 羊和狗刻03 监督重跑（2026-08-04）：新版 16 句零间隙合并覆盖 100%，whisper Ground Truth 实测 14s 句间静默；macro 声明 83.6% 反而诚实——时间轴与 macro 不连贯 | finalize-l2 新增硬检查：VO 去重叠合并覆盖≥99.5% 且 whisper 静默≥5s 拒收；prompt_header/L2 模板加「保间隙」铁律 |
+| 31 | 骨架变体过密度门：每镜 visual_content=“第N镜XX画面细节描述”或多镜只改编号 | AccountA10/08 骨架事故（2026-07-28）：110 镜同模板套话，占位符旧正则（锚定纯英文 Shot N）漏掉，密度因镜多而过门 | check_placeholder_forgery 已加模板套话正则 + 去数字后唯一度<50%拒收；机器门禁外必须内容抽样比对真实画面 |
+| 32 | VO 句边界链式合并（end=next.start）吞掉句间静默，产出假 100% 覆盖时间轴 | AccountE03 监督重跑（2026-08-04）：新版 16 句零间隙合并覆盖 100%，whisper Ground Truth 实测 14s 句间静默；macro 声明 83.6% 反而诚实——时间轴与 macro 不连贯 | finalize-l2 新增硬检查：VO 去重叠合并覆盖≥99.5% 且 whisper 静默≥5s 拒收；prompt_header/L2 模板加「保间隙」铁律 |
