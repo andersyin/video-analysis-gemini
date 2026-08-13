@@ -1,15 +1,17 @@
 # standalone_watchdog 安装与验收（P0-4，2026-07-28）
 
-> 来源决策：`DECISIONS.md` 2026-07-28「SentientOS 借鉴改造 P0 四项开工」。
 > 设计原则：deadman 守护逻辑活在被守护会话之外（SentientOS Overnight Scheduler 教训）。
 
 ## 安装（launchd 常驻，30 分钟一轮）
 
+Set `MEDIA_DIR` in `local.env` (copy from `local.env.example`). Do not sed-replace this repo.
+
 ```sh
-cp "{{PROJECT_ROOT}}/launchd/com.video-analysis.watchdog.plist" ~/Library/LaunchAgents/
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.video-analysis.watchdog.plist
-launchctl kickstart gui/$(id -u)/com.video-analysis.watchdog   # 立即触发首轮
+bash launchd/install.sh
+launchctl kickstart "gui/$(id -u)/com.video-analysis.watchdog"
 ```
+
+`install.sh` writes `~/Library/LaunchAgents/com.video-analysis.watchdog.plist` with real paths and `MEDIA_DIR`. The committed plist is a template only.
 
 ## 验收标准（P0-2 心跳实测协议，禁止只查文件）
 
@@ -17,19 +19,21 @@ launchctl kickstart gui/$(id -u)/com.video-analysis.watchdog   # 立即触发首
 唯一验收依据是**状态文件 mtime 前进**：
 
 ```sh
-# ① 记录当前心跳
-stat -f "%Sm" "{{KB_BASE}}/raw/系统/watchdog心跳/video-analysis-watchdog.json"
-# ② kickstart 触发一轮后，确认 mtime 前进且 last_run_at 更新
-launchctl kickstart gui/$(id -u)/com.video-analysis.watchdog && sleep 30
-python3 -c "import json; d=json.load(open('{{KB_BASE}}/raw/系统/watchdog心跳/video-analysis-watchdog.json')); print(d['last_run_at'], d['alerts'])"
+# Default heartbeat (KB_BASE unset)
+stat -f "%Sm" /tmp/video-analysis-watchdog.json
+# If KB_BASE is set:
+# stat -f "%Sm" "$KB_BASE/raw/系统/watchdog心跳/video-analysis-watchdog.json"
+
+launchctl kickstart "gui/$(id -u)/com.video-analysis.watchdog" && sleep 30
+python3 -c "import json; d=json.load(open('/tmp/video-analysis-watchdog.json')); print(d['last_run_at'], d['alerts'])"
 ```
 
 故障分类（文件检查只用于分类，不用于判活）：
 - **ready**：状态文件 mtime 在 StartInterval×2 内 → 健康
 - **disabled**：mtime 停走 + plist 在 + `launchctl print gui/$(id -u)/com.video-analysis.watchdog` 报 not found → 后台活动开关被关 / 被 bootout，需重新 bootstrap
-- **notSetUp**：plist 不在 `~/Library/LaunchAgents/` → 重走安装
-- **tcc-denied**（field-found 2026-07-28）：`/tmp/kb-video-watchdog.err.log` 出现 `can't open file … Operation not permitted` → launchd 上下文的解释器无外置卷访问权（TCC 不继承终端权限，后台任务不弹授权框、静默失败）。**本机实测有效解**：不要试图给 python3 授 FDA（实测授了仍被拦）——用 `/bin/bash` + `watchdog-wrapper.sh` 包装模式（本 plist 现行方案，与 daily-work-mirror 等既有外置卷任务同款）；若 wrapper 模式也被拦，对照本机其他能访问同卷的 launchd 任务找已持权执行器
-- **volume-gone**：/tmp/kb-video-watchdog.err.log 有 python 报错 + 外置卷未挂载 → 挂卷后自愈，无需动 launchd
+- **notSetUp**：plist 不在 `~/Library/LaunchAgents/` → 重走 `bash launchd/install.sh`
+- **tcc-denied**（field-found 2026-07-28）：`/tmp/video-analysis-watchdog.err.log` 出现 `can't open file … Operation not permitted` → launchd 上下文的解释器无外置卷访问权（TCC 不继承终端权限，后台任务不弹授权框、静默失败）。**本机实测有效解**：不要试图给 python3 授 FDA（实测授了仍被拦）——用 `/bin/bash` + `watchdog-wrapper.sh` 包装模式（本 plist 现行方案，与 daily-work-mirror 等既有外置卷任务同款）；若 wrapper 模式也被拦，对照本机其他能访问同卷的 launchd 任务找已持权执行器
+- **volume-gone**：err.log 有 python 报错 + 外置卷未挂载 → 挂卷后自愈，无需动 launchd
 
 ## 行为契约
 
@@ -40,15 +44,16 @@ python3 -c "import json; d=json.load(open('{{KB_BASE}}/raw/系统/watchdog心跳
 | TAMPER | _state.json 高危篡改签名 | 告警 |
 
 - 退出码：0 健康 / 1 有发现 / 2 脚本或卷故障。
-- 状态与日志：`raw/系统/watchdog心跳/video-analysis-watchdog.{json,log}`（日志自动轮转 500 行）。
+- 状态与日志：`/tmp/video-analysis-watchdog.{json,log}`（或 `$KB_BASE/raw/系统/watchdog心跳/`）；日志自动轮转 500 行。
 - PREPROCESSED 为排队态不参与 STALL 判活（2026-07-28 真实负载压测教训：否则 70+ 积压误报）。
 
 ## 卸载
 
 ```sh
-launchctl bootout gui/$(id -u)/com.video-analysis.watchdog
-rm ~/Library/LaunchAgents/com.video-analysis.watchdog.plist
+bash launchd/uninstall.sh
 ```
+
+Archives and `/tmp/video-analysis-watchdog.*` logs are kept.
 
 ## 验收记录
 

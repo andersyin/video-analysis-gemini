@@ -21,7 +21,7 @@ watchdog 自身心跳（Liveness is the ONLY honest status）：
 
 用法：
   python3 standalone_watchdog.py \
-    --archive-dir "{{MEDIA_DIR}}/analysis_archive" \
+    --archive-dir "$MEDIA_DIR/analysis_archive" \
     [--stale-min 90] [--auto-finalize] [--status-file <path>] [--log-file <path>]
 
   launchd 安装/验证：见同目录 launchd/README_watchdog_install.md
@@ -36,6 +36,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+from local_paths import default_status_dir, has_placeholder
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 SESSION_GUARD = SCRIPT_DIR / "session_guard.py"
 
@@ -45,8 +47,9 @@ SESSION_GUARD = SCRIPT_DIR / "session_guard.py"
 # PREPROCESSED 的异常由遗孤检测覆盖（5 板块齐但未 finalize-l2）。
 STALL_WATCH_STATES = {"FLASH_EXTRACTED", "PRO_AUDITING", "PROBE_REPAIRING"}
 
-# KB 持久心跳目录（对齐 raw/系统/备份心跳/ 双写模式）
-DEFAULT_STATUS_DIR = Path("{{KB_BASE}}/raw/系统/watchdog心跳")
+# Heartbeat dir: $KB_BASE/raw/系统/watchdog心跳 if set, otherwise /tmp
+# (never mkdir a literal {{KB_BASE}} path).
+DEFAULT_STATUS_DIR = default_status_dir()
 LOG_KEEP_LINES = 500  # 日志轮转：只保留最近 N 行，防熵
 
 
@@ -111,6 +114,17 @@ def main():
     ap.add_argument("--status-file", default=str(DEFAULT_STATUS_DIR / "video-analysis-watchdog.json"))
     ap.add_argument("--log-file", default=str(DEFAULT_STATUS_DIR / "video-analysis-watchdog.log"))
     args = ap.parse_args()
+
+    if has_placeholder(args.archive_dir):
+        sys.exit(
+            "error: --archive-dir still contains a placeholder. "
+            "Set MEDIA_DIR or pass a real path. Do not sed-replace this file."
+        )
+    if has_placeholder(args.status_file) or has_placeholder(args.log_file):
+        sys.exit(
+            "error: --status-file/--log-file still contains a placeholder. "
+            "Unset KB_BASE to use /tmp, or pass explicit paths."
+        )
 
     now = datetime.now()
     root = Path(args.archive_dir)

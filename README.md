@@ -1,6 +1,6 @@
 # video-analysis-gemini
 
-![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![CI](https://img.shields.io/github/actions/workflow/status/andersyin/video-analysis-gemini/ci.yml)
 ![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey.svg)
@@ -55,33 +55,34 @@ Layer 4: Delivery & IP Asset Compilation
 
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.9+
 - ffmpeg + ffprobe (`brew install ffmpeg` on macOS)
 - [OpenAI Whisper](https://github.com/openai/whisper) (`pip install openai-whisper`)
-- Access to Gemini API (Flash 3.6 + Pro 3.1)
+- Gemini via Antigravity / `agy` for Layer 2–3 (`view_file`). This repo does **not** read `GEMINI_API_KEY` — do not commit API keys.
 
 ### Installation
 
 ```bash
 git clone https://github.com/andersyin/video-analysis-gemini.git
 cd video-analysis-gemini
+cp local.env.example local.env   # gitignored
+# edit MEDIA_DIR=/path/to/Media
+python3 scripts/check_host.py
 ```
 
 ### Configuration
 
-Replace path placeholders in scripts and config files:
+Paths come from the environment or `local.env`. **Do not sed-replace committed files.**
 
-| Placeholder | Meaning | Example |
-|-------------|---------|---------|
-| `{{PROJECT_ROOT}}` | This repo's root directory | `/home/user/video-analysis-gemini` |
-| `{{MEDIA_DIR}}` | Your media assets directory | `/home/user/Media` |
+| Variable | Meaning | Example |
+|----------|---------|---------|
+| `MEDIA_DIR` | Your media / archive parent directory | `$HOME/Media` |
+| `KB_BASE` | Optional watchdog heartbeat parent | `$HOME/kb` (unset → `/tmp`) |
+| `PROJECT_ROOT` | Set automatically from the script location | this clone |
 
 ```bash
-# Bulk replace placeholders
-find . -type f \( -name "*.py" -o -name "*.sh" -o -name "*.plist" \) -exec sed -i \
-  -e "s|{{PROJECT_ROOT}}|$(pwd)|g" \
-  -e "s|{{MEDIA_DIR}}|$HOME/Media|g" \
-  {} \;
+export MEDIA_DIR="$HOME/Media"
+# or: source local.env after editing it
 ```
 
 See [DEPLOY.md](DEPLOY.md) for detailed setup.
@@ -89,19 +90,20 @@ See [DEPLOY.md](DEPLOY.md) for detailed setup.
 ### Run Preprocessing
 
 ```bash
-cd scripts
-python3 batch_preprocess.py \
-  --videos-dir /path/to/videos \
-  --account your_account_name \
-  --archive-dir /path/to/archive
+python3 scripts/batch_preprocess.py \
+  --videos-dir "$MEDIA_DIR/AccountA" \
+  --account AccountA \
+  --archive-dir "$MEDIA_DIR/analysis_archive"
 ```
 
 ### Background Watchdog (macOS)
 
 ```bash
-cp launchd/com.video-analysis.watchdog.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/com.video-analysis.watchdog.plist
+bash launchd/install.sh
+# uninstall: bash launchd/uninstall.sh
 ```
+
+Liveness is the heartbeat file mtime (`/tmp/video-analysis-watchdog.json` unless `KB_BASE` is set), not `launchctl list`.
 
 ## Supported Video Specs
 
@@ -120,6 +122,7 @@ launchctl load ~/Library/LaunchAgents/com.video-analysis.watchdog.plist
 | `preprocessor.py` | Whisper STT + ffprobe + keyframe extraction | L1 |
 | `session_guard.py` | State management + preflight + orphan detection | Global |
 | `standalone_watchdog.py` | launchd-powered standalone watchdog | Monitor |
+| `check_host.py` | First-run: Python / ffmpeg / Whisper / `MEDIA_DIR` | Setup |
 | `unified_gate.py` | Schema / density / timeline hard gates | L3 |
 | `pro_qa_inspector.py` | Pro semantic audit + adversarial probes | L3 |
 | `synthesis_engine.py` | Cross-video formula extraction | L4 |
@@ -159,6 +162,8 @@ video-analysis-gemini/
 ├── CONTRIBUTING.md             # Contribution guide
 ├── pyproject.toml              # Python project metadata
 ├── requirements.txt            # Dependencies (standard lib only)
+├── local.env.example           # Path config template (copy to local.env)
+├── tests/                      # Unit tests (no API / ffmpeg runtime)
 ├── assets/                     # Output templates
 ├── experiments/                # A/B test scripts
 ├── launchd/                    # macOS watchdog config
@@ -180,4 +185,4 @@ MIT — see [LICENSE](LICENSE)
 
 ## Contributing
 
-Issues and PRs welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md). GitHub Issues may be disabled on this repository.

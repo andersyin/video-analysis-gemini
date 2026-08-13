@@ -4,16 +4,24 @@
 <dict>
     <key>Label</key>
     <string>com.video-analysis.watchdog</string>
+    <!-- Template only. bash launchd/install.sh writes the live copy
+         under ~/Library/LaunchAgents with real PROJECT_ROOT and MEDIA_DIR. -->
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>{{PROJECT_ROOT}}/launchd/watchdog-wrapper.sh</string>
+        <string>/absolute/path/to/video-analysis-gemini/launchd/watchdog-wrapper.sh</string>
     </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>MEDIA_DIR</key>
+        <string>/absolute/path/to/Media</string>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
     <key>StartInterval</key>
     <integer>1800</integer>
     <key>RunAtLoad</key>
     <true/>
-    <!-- 日志放本地盘：外置卷未挂载时脚本本体都不可达，launchd 层失败要在本地盘留痕 -->
     <key>StandardOutPath</key>
     <string>/tmp/video-analysis-watchdog.out.log</string>
     <key>StandardErrorPath</key>
