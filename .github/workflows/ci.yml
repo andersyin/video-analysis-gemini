@@ -23,27 +23,53 @@ jobs:
 
       - name: Check syntax
         run: |
-          for f in scripts/*.py; do
-            python -m py_compile "$f" && echo "OK: $f" || exit 1
-          done
+          failed=0
+          while IFS= read -r -d '' f; do
+            if python -m py_compile "$f"; then
+              echo "OK: $f"
+            else
+              echo "FAIL: $f"
+              failed=1
+            fi
+          done < <(find scripts experiments -name '*.py' -print0)
+          exit "$failed"
+
+      - name: Schema contract sync
+        run: python scripts/validate_schema.py --check-contract-sync
+
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
 
       - name: Install flake8
         run: pip install flake8
 
       - name: Lint with flake8
         run: |
-          # Stop the build on syntax errors and undefined names
-          flake8 scripts/ --count --select=E9,F63,F7,F82 --show-source --statistics
-          # Exit-zero treats all errors as warnings
-          flake8 scripts/ --count --exit-zero --max-complexity=20 --max-line-length=120 --statistics
+          flake8 scripts/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 scripts/ tests/ --count --exit-zero --max-complexity=20 --max-line-length=120 --statistics
 
   shell-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check shell scripts
-        uses: ludeeus/action-shellcheck@master
-        with:
-          severity: warning
-          ignore_names: watchdog-wrapper.sh
+      - name: Install ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Bash syntax check
+        run: |
+          failed=0
+          while IFS= read -r -d '' f; do
+            if bash -n "$f"; then
+              echo "OK: $f"
+            else
+              echo "FAIL: $f"
+              failed=1
+            fi
+          done < <(find . -name '*.sh' -not -path './.git/*' -print0)
+          exit "$failed"
+
+      - name: Run ShellCheck
+        run: |
+          mapfile -t files < <(find . -name '*.sh' -not -path './.git/*' | sort)
+          shellcheck --severity=warning --format=gcc "${files[@]}"

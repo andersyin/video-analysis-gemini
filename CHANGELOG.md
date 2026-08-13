@@ -1,5 +1,12 @@
 # CHANGELOG — video-analysis-gemini
 
+## 2026-08-13 · CI 修复 + 路径不再改仓库
+
+- CI `shell-check` 在 `run_batch_l1.sh` 的 `#!/bin/zsh` 上以 SC1071 失败；改为 bash，并用 `apt-get install shellcheck` + `bash -n` 替代 `ludeeus/action-shellcheck@master`
+- 路径改走 `MEDIA_DIR` / `local.env`，脚本遇 `{{PLACEHOLDER}}` 直接退出；不要再 sed 改仓库
+- launchd：`install.sh` / `uninstall.sh`，wrapper 从 PATH/Homebrew 找 python3，心跳默认 `/tmp`
+- 审计脚本补 argparse；`validate_schema --check-contract-sync` 与廉价单测进入 CI
+
 ## 2026-07-28 · agy CLI headless 批量编排实跑固化 + 骨架变体门禁补齐
 
 **背景**：首次用 `agy` CLI headless 自主过夜跑AccountA 07-12（原 skill 只设想 GUI 交互式 view_file）。实跑净交付 07/11 全流程（Pro 95），并踩平沙箱/token/字段契约/伪造一串坑，经验固化进 SKILL。

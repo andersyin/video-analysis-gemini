@@ -34,6 +34,12 @@ import subprocess
 import sys
 from pathlib import Path
 
+from local_paths import resolve_tool
+
+FFPROBE = resolve_tool("ffprobe")
+FFMPEG = resolve_tool("ffmpeg")
+WHISPER = resolve_tool("whisper")
+
 # 感知专用转码默认阈值（MB）。根因诊断（2026-07-26 堆栈分析）：
 # 视频经 view_file 放入请求体时 base64 膨胀 ~1.33x（54.2MB → ~72MB body），
 # 本地 Sidecar（127.0.0.1:12450）拒收超大 Request Body 主动断管，
@@ -55,7 +61,7 @@ SENSE_TIERS = [
 def run_ffprobe(video_path):
     """运行 ffprobe 提取视频元数据"""
     cmd = [
-        "ffprobe", "-v", "quiet", "-print_format", "json",
+        FFPROBE, "-v", "quiet", "-print_format", "json",
         "-show_format", "-show_streams", video_path,
     ]
     try:
@@ -83,7 +89,7 @@ def run_ffprobe(video_path):
 def _probe_quick(video_path):
     """轻量 ffprobe，只取时长与尺寸（用于感知轨产物校验）"""
     cmd = [
-        "ffprobe", "-v", "quiet", "-print_format", "json",
+        FFPROBE, "-v", "quiet", "-print_format", "json",
         "-show_format", "-show_streams", video_path,
     ]
     try:
@@ -116,7 +122,7 @@ def extract_audio_track(video_path, video_dir, meta, audio_bitrate="96k"):
         return None
     audio_path = os.path.join(video_dir, "_sense_audio.m4a")
     cmd = [
-        "ffmpeg", "-y", "-i", video_path,
+        FFMPEG, "-y", "-i", video_path,
         "-vn", "-c:a", "aac", "-b:a", audio_bitrate,
         "-movflags", "+faststart",
         audio_path,
@@ -161,7 +167,7 @@ def transcode_sense(video_path, video_dir, meta, threshold_mb=DEFAULT_SENSE_THRE
         if tier["max_fps"]:
             vf += f",fps={tier['max_fps']}"
         cmd = [
-            "ffmpeg", "-y", "-i", video_path,
+            FFMPEG, "-y", "-i", video_path,
             "-vf", vf,
             "-c:v", "libx264", "-preset", tier["preset"], "-crf", tier["crf"],
             "-pix_fmt", "yuv420p",
@@ -236,7 +242,7 @@ def detect_scene_cuts(video_path, threshold=0.35):
     （66 镜 vs 算法实测 ~185 切点）。与 _system_boundary 同一设计哲学：用算法事实压住偷懒。
     注意：scene 检测对闪光/大运动会过检，仅作量级参照（门禁层软告警），不替代感知。
     """
-    cmd = ["ffmpeg", "-i", video_path,
+    cmd = [FFMPEG, "-i", video_path,
            "-vf", f"select='gt(scene,{threshold})',metadata=print", "-f", "null", "-"]
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
@@ -251,8 +257,8 @@ def run_whisper(video_path, archive_dir):
     """运行 Whisper 提取带时间戳的台词"""
     # 尝试多种 Whisper 实现
     whisper_cmds = [
-        ["whisper", video_path, "--model", "base", "--output_format", "json", "--output_dir", archive_dir],
-        ["python3", "-m", "whisper", video_path, "--model", "base", "--output_format", "json", "--output_dir", archive_dir],
+        [WHISPER, video_path, "--model", "base", "--output_format", "json", "--output_dir", archive_dir],
+        [sys.executable, "-m", "whisper", video_path, "--model", "base", "--output_format", "json", "--output_dir", archive_dir],
     ]
 
     for cmd in whisper_cmds:
@@ -319,7 +325,7 @@ def generate_contact_sheet(video_path, archive_dir, meta=None, grid_size=3):
     select_expr = "select='{}'".format("+".join(f"eq(n\\,{i})" for i in indices))
 
     cmd = [
-        "ffmpeg", "-y", "-i", video_path,
+        FFMPEG, "-y", "-i", video_path,
         "-vf", f"{select_expr},scale=320:180,tile={grid_size}x{grid_size}",
         "-frames:v", "1", "-vsync", "vfr", output_path,
     ]
